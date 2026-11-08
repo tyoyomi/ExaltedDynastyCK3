@@ -118,3 +118,78 @@ ed_manage_exalted_dynasty_decision = {
 		base = 0
 	}
 }
+
+ed_mass_sync_exalted_house_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+	}
+	decision_group_type = major
+	desc = ed_mass_sync_exalted_house_decision_desc
+	selection_tooltip = ed_mass_sync_exalted_house_decision_tooltip
+	confirm_text = ed_mass_sync_exalted_house_decision_confirm
+
+	ai_check_interval = 0
+
+	is_shown = {
+		is_alive = yes
+		exists = house
+		ed_character_house_is_exalted = yes
+		NOT = { has_game_rule = ed_rule_granting_disabled }
+		OR = {
+			is_ai = no
+			has_game_rule = ed_rule_granting_player_and_ai
+		}
+	}
+
+	is_valid = {
+		custom_tooltip = {
+			text = ed_tt_house_is_exalted
+			ed_character_house_is_exalted = yes
+		}
+	}
+
+	effect = {
+		custom_tooltip = ed_mass_sync_exalted_house_decision_effect_tt
+		ed_mass_sync_exalted_house_effect = yes
+		trigger_event = ed_events.1501
+	}
+
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+ed_auto_strip_left_house_members_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+	}
+	decision_group_type = major
+	desc = ed_auto_strip_left_house_members_decision_desc
+	selection_tooltip = ed_auto_strip_left_house_members_decision_tooltip
+	confirm_text = ed_auto_strip_left_house_members_decision_confirm
+
+	ai_check_interval = 0
+
+	is_shown = {
+		is_alive = yes
+		exists = house
+		ed_character_house_is_exalted = yes
+		has_game_rule = ed_rule_strip_on_leave_house_on
+		OR = {
+			is_ai = no
+			has_game_rule = ed_rule_granting_player_and_ai
+		}
+	}
+
+	is_valid = {
+		always = yes
+	}
+
+	effect = {
+		custom_tooltip = ed_auto_strip_left_house_members_decision_effect_tt
+		ed_auto_strip_left_house_members_effect = yes
+		trigger_event = ed_events.1502
+	}
+
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}

@@ -265,3 +265,66 @@ ed_yearly_house_sync_effect = {
 		ed_apply_member_effect = yes
 	}
 }
+
+### Expansion pack
+ed_mass_sync_exalted_house_effect = {
+	# this = house head / player with exalted house
+	if = {
+		limit = {
+			exists = house
+			ed_character_house_is_exalted = yes
+		}
+		house = { save_scope_as = ed_target_house }
+		ed_sync_house_members_effect = yes
+	}
+}
+
+ed_auto_strip_left_house_members_effect = {
+	# this = any living character with exalted house context — strip trait holders who left
+	save_scope_as = ed_strip_actor
+	set_variable = { name = ed_auto_strip_count value = 0 }
+	if = {
+		limit = {
+			exists = house
+			house = { ed_house_is_exalted = yes }
+		}
+		house = {
+			every_house_member = {
+				limit = {
+					is_alive = yes
+					has_trait = ed_exalted_dynast
+				}
+				# Members still in house: ensure applied (no-op if present)
+				ed_apply_member_effect = yes
+			}
+		}
+	}
+	# World-local: strip anyone we can see who has the trait but left house
+	every_close_family_member = {
+		limit = {
+			is_alive = yes
+			has_trait = ed_exalted_dynast
+			ed_should_strip_member = yes
+		}
+		ed_strip_member_left_house_effect = yes
+		scope:ed_strip_actor = { change_variable = { name = ed_auto_strip_count add = 1 } }
+	}
+	every_courtier_or_guest = {
+		limit = {
+			is_alive = yes
+			has_trait = ed_exalted_dynast
+			ed_should_strip_member = yes
+		}
+		ed_strip_member_left_house_effect = yes
+		scope:ed_strip_actor = { change_variable = { name = ed_auto_strip_count add = 1 } }
+	}
+	every_vassal = {
+		limit = {
+			is_alive = yes
+			has_trait = ed_exalted_dynast
+			ed_should_strip_member = yes
+		}
+		ed_strip_member_left_house_effect = yes
+		scope:ed_strip_actor = { change_variable = { name = ed_auto_strip_count add = 1 } }
+	}
+}

@@ -91,3 +91,19 @@ ed_events.2001 = {
 		custom_tooltip = ed_events.2001.c_tt
 	}
 }
+
+ed_events.1501 = {
+	type = character_event
+	title = ed_events.1501.t
+	desc = ed_events.1501.desc
+	theme = dynasty
+	option = { name = ed_events.1501.a }
+}
+
+ed_events.1502 = {
+	type = character_event
+	title = ed_events.1502.t
+	desc = ed_events.1502.desc
+	theme = dynasty
+	option = { name = ed_events.1502.a }
+}
