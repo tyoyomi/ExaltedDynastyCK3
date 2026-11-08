@@ -1,0 +1,104 @@
+# Exalted Dynasty — scripted triggers
+
+ed_is_exalted_dynast = {
+	has_trait = ed_exalted_dynast
+}
+
+# Soft peer: Supreme Sovereign trait key. Fails closed if SS is absent (may log once).
+ed_character_is_supreme_sovereign = {
+	has_trait = Supreme_Sovereign
+}
+
+# this = house
+ed_house_is_exalted = {
+	has_variable = ed_exalted
+}
+
+# Character's current house is exalted
+ed_character_house_is_exalted = {
+	exists = house
+	house = {
+		ed_house_is_exalted = yes
+	}
+}
+
+ed_granting_disabled = {
+	has_game_rule = ed_rule_granting_disabled
+}
+
+ed_actor_may_exalt_by_granting_rule = {
+	NOT = { has_game_rule = ed_rule_granting_disabled }
+	trigger_if = {
+		limit = { has_game_rule = ed_rule_granting_player_only }
+		is_ai = no
+	}
+	# player_and_ai: both allowed
+}
+
+ed_actor_meets_who_may_exalt = {
+	trigger_if = {
+		limit = { has_game_rule = ed_rule_who_may_exalt_house_head }
+		is_house_head = yes
+	}
+	trigger_else_if = {
+		limit = { has_game_rule = ed_rule_who_may_exalt_dynasty_head }
+		is_dynast = yes
+	}
+	trigger_else = {
+		# either
+		OR = {
+			is_house_head = yes
+			is_dynast = yes
+		}
+	}
+}
+
+ed_house_head_blocks_for_sovereign = {
+	has_game_rule = ed_rule_stack_with_sovereign_block_house_if_head_sovereign
+	exists = house
+	house = {
+		exists = house_head
+		house_head = {
+			ed_character_is_supreme_sovereign = yes
+		}
+	}
+}
+
+# Actor eligible to exalt their own house (actor = this)
+ed_actor_may_exalt = {
+	is_alive = yes
+	exists = house
+	ed_actor_may_exalt_by_granting_rule = yes
+	ed_actor_meets_who_may_exalt = yes
+	NOT = { ed_character_house_is_exalted = yes }
+	custom_tooltip = {
+		text = ed_tt_not_blocked_by_sovereign_head
+		NOT = { ed_house_head_blocks_for_sovereign = yes }
+	}
+	# v1: own house only (vassal-house reserved)
+	trigger_if = {
+		limit = { has_game_rule = ed_rule_scope_any_vassal_house }
+		always = yes
+	}
+}
+
+# Current house head of an exalted house may revoke
+ed_actor_may_revoke = {
+	is_alive = yes
+	exists = house
+	is_house_head = yes
+	ed_character_house_is_exalted = yes
+}
+
+ed_should_strip_member = {
+	has_trait = ed_exalted_dynast
+	has_game_rule = ed_rule_strip_on_leave_house_on
+	NAND = {
+		ed_character_house_is_exalted = yes
+	}
+}
+
+ed_should_skip_renown_for_sovereign = {
+	has_game_rule = ed_rule_stack_with_sovereign_skip_renown_on_sovereign
+	ed_character_is_supreme_sovereign = yes
+}

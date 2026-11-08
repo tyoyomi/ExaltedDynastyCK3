@@ -1,0 +1,107 @@
+﻿l_english:
+ # Trait
+ trait_ed_exalted_dynast:0 "Exalted Dynast"
+ trait_ed_exalted_dynast_desc:0 "A living member of an exalted house. Mild favor marks them — competence, cohesion, and a share of the house's renown faucet. Appointed status, not blood destiny."
+
+ # Decisions
+ ed_exalt_my_house_decision:0 "Exalt My House"
+ ed_exalt_my_house_decision_desc:0 "Declare your house exalted. Every living member gains Exalted Dynast status, and the house begins a steady renown drip while the exaltation lasts."
+ ed_exalt_my_house_decision_tooltip:0 "Exalt your house and sync Exalted Dynast to all living members"
+ ed_exalt_my_house_decision_confirm:0 "Exalt the House"
+ ed_exalt_my_house_decision_effect_tt:0 "Your house becomes exalted; living members gain Exalted Dynast"
+
+ ed_revoke_house_exaltation_decision:0 "Revoke House Exaltation"
+ ed_revoke_house_exaltation_decision_desc:0 "End your house's exalted status. All living members lose Exalted Dynast, and the renown faucet stops."
+ ed_revoke_house_exaltation_decision_tooltip:0 "Clear house exaltation and strip all members"
+ ed_revoke_house_exaltation_decision_confirm:0 "Revoke Exaltation"
+ ed_revoke_house_exaltation_decision_effect_tt:0 "House exaltation ends; all members lose Exalted Dynast"
+
+ ed_manage_exalted_dynasty_decision:0 "Manage Exalted Dynasty"
+ ed_manage_exalted_dynasty_decision_desc:0 "Review whether your house is exalted and how exaltation, revoke, and member sync work. Exalt and revoke are separate decisions."
+ ed_manage_exalted_dynasty_decision_tooltip:0 "Open a summary of Exalted Dynasty status and rules"
+ ed_manage_exalted_dynasty_decision_confirm:0 "Review Status"
+ ed_manage_exalted_dynasty_decision_effect_tt:0 "You will receive a brief overview of Exalted Dynasty"
+
+ # Tooltips
+ ed_tt_actor_may_exalt:0 "You may exalt your house"
+ ed_tt_actor_may_revoke:0 "You may revoke your house's exaltation"
+ ed_tt_not_blocked_by_sovereign_head:0 "House head is not a Supreme Sovereign (or stacking rule allows exaltation)"
+
+ # Game rules
+ rule_ed_rule_granting:0 "Exalted Dynasty: Who May Exalt"
+ setting_ed_rule_granting_player_only:0 "Player Only"
+ setting_ed_rule_granting_player_only_desc:0 "Only human players may exalt a house."
+ setting_ed_rule_granting_player_and_ai:0 "#high Player and AI#!"
+ setting_ed_rule_granting_player_and_ai_desc:0 "Players and AI may exalt houses. AI exaltation is rare by design."
+ setting_ed_rule_granting_disabled:0 "Disabled"
+ setting_ed_rule_granting_disabled_desc:0 "Exalting is disabled. Existing exalted houses are unaffected until revoked or stripped."
+
+ rule_ed_rule_who_may_exalt:0 "Exalted Dynasty: Actor Eligibility"
+ setting_ed_rule_who_may_exalt_house_head:0 "House Head"
+ setting_ed_rule_who_may_exalt_house_head_desc:0 "Only the house head may exalt the house."
+ setting_ed_rule_who_may_exalt_dynasty_head:0 "Dynasty Head"
+ setting_ed_rule_who_may_exalt_dynasty_head_desc:0 "Only the dynasty head (dynast) may exalt a house."
+ setting_ed_rule_who_may_exalt_either:0 "House or Dynasty Head"
+ setting_ed_rule_who_may_exalt_either_desc:0 "Either the house head or the dynasty head may exalt."
+
+ rule_ed_rule_scope:0 "Exalted Dynasty: Exalt Scope"
+ setting_ed_rule_scope_own_house_only:0 "Own House Only"
+ setting_ed_rule_scope_own_house_only_desc:0 "You may only exalt your own house (v1 decisions)."
+ setting_ed_rule_scope_any_vassal_house:0 "#high Any Vassal House#!"
+ setting_ed_rule_scope_any_vassal_house_desc:0 "Reserved for a future interaction path to exalt vassal houses. v1 decisions still exalt only your own house."
+
+ rule_ed_rule_strip_on_leave_house:0 "Exalted Dynasty: Strip on Leaving House"
+ setting_ed_rule_strip_on_leave_house_on:0 "On"
+ setting_ed_rule_strip_on_leave_house_on_desc:0 "Exalted Dynast is removed when a member leaves the exalted house (cadet split, adoption, etc.)."
+ setting_ed_rule_strip_on_leave_house_off:0 "Off"
+ setting_ed_rule_strip_on_leave_house_off_desc:0 "Leaving the house does not auto-strip. Manual house revoke still clears everyone."
+
+ rule_ed_rule_renown_tier:0 "Exalted Dynasty: Renown Faucet"
+ setting_ed_rule_renown_tier_low:0 "Low (8)"
+ setting_ed_rule_renown_tier_low_desc:0 "Each exalted member contributes 8 monthly dynasty prestige (renown)."
+ setting_ed_rule_renown_tier_mid:0 "Mid (20)"
+ setting_ed_rule_renown_tier_mid_desc:0 "Each exalted member contributes 20 monthly dynasty prestige (renown)."
+ setting_ed_rule_renown_tier_high:0 "#high High (40)#!"
+ setting_ed_rule_renown_tier_high_desc:0 "Each exalted member contributes 40 monthly dynasty prestige (renown)."
+
+ rule_ed_rule_stack_with_sovereign:0 "Exalted Dynasty: Supreme Sovereign Stacking"
+ setting_ed_rule_stack_with_sovereign_apply_full:0 "Apply Full"
+ setting_ed_rule_stack_with_sovereign_apply_full_desc:0 "Supreme Sovereign holders in an exalted house get full member buffs including the renown faucet."
+ setting_ed_rule_stack_with_sovereign_skip_renown_on_sovereign:0 "Skip Renown on Sovereign"
+ setting_ed_rule_stack_with_sovereign_skip_renown_on_sovereign_desc:0 "Sovereign holders keep mild house buffs but do not contribute the Exalted Dynasty renown faucet."
+ setting_ed_rule_stack_with_sovereign_block_house_if_head_sovereign:0 "Block if House Head is Sovereign"
+ setting_ed_rule_stack_with_sovereign_block_house_if_head_sovereign_desc:0 "Cannot exalt a house whose current house head is a Supreme Sovereign."
+
+ # Events
+ ed_events.1001.t:0 "House Exalted"
+ ed_events.1001.desc:0 "Your house stands exalted. Living members carry Exalted Dynast, and a steady renown drip feeds the dynasty's legacy — for as long as the exaltation lasts."
+ ed_events.1001.a:0 "Let the house rise."
+
+ ed_events.1002.t:0 "Exalted Dynast"
+ ed_events.1002.desc:0 "You are marked as an Exalted Dynast of your house. The favor is mild, appointed, and tied to remaining in the exalted house."
+ ed_events.1002.a:0 "I will honor the house."
+
+ ed_events.1101.t:0 "Exaltation Revoked"
+ ed_events.1101.desc:0 "By deliberate decree, your house's exaltation has ended. Members lose Exalted Dynast, and the renown faucet stops."
+ ed_events.1101.a:0 "So ends the favor."
+
+ ed_events.1201.t:0 "Left the Exalted House"
+ ed_events.1201.desc:0 "You no longer belong to the exalted house. Exalted Dynast status has lapsed — not by house revoke, but by leaving the house itself."
+ ed_events.1201.a:0 "The favor stays with them."
+
+ ed_events.2001.t:0 "Exalted Dynasty"
+ ed_events.2001.desc:0 "Exalted Dynasty elevates a whole house — mild member buffs and a renown faucet — by appointment, not genetics.\n\nExalt My House: declare your house exalted and sync all living members.\nRevoke House Exaltation: available to the house head of an exalted house.\nCadets born into an exalted house gain the status; members who leave lose it while Strip on Leave is enabled.\n\nRuler Designer can apply the trait for debugging, but that does not exalt the house."
+ ed_events.2001.a:0 "Understood"
+ ed_events.2001.a_tt:0 "Use the Exalt and Revoke decisions to change house status"
+ ed_events.2001.b:0 "Our house is exalted"
+ ed_events.2001.b_tt:0 "Living house members should carry Exalted Dynast while exaltation lasts"
+ ed_events.2001.c:0 "Our house is not exalted"
+ ed_events.2001.c_tt:0 "Use Exalt My House when eligible"
+
+ # Modifiers
+ ed_exalted_renown_low_modifier:0 "Exalted House Renown (Low)"
+ ed_exalted_renown_low_modifier_desc:0 "A mild share of the exalted house's renown faucet."
+ ed_exalted_renown_mid_modifier:0 "Exalted House Renown (Mid)"
+ ed_exalted_renown_mid_modifier_desc:0 "A steady share of the exalted house's renown faucet."
+ ed_exalted_renown_high_modifier:0 "Exalted House Renown (High)"
+ ed_exalted_renown_high_modifier_desc:0 "A strong share of the exalted house's renown faucet."

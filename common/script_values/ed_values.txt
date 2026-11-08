@@ -1,0 +1,31 @@
+# Exalted Dynasty — tunable script values
+
+@ed_skill = 5
+@ed_health = 2
+@ed_monthly_prestige = 1
+@ed_monthly_piety = 2
+@ed_monthly_income = 2
+@ed_general_opinion = 25
+@ed_house_opinion = 10
+@ed_dynasty_member_opinion = 10
+@ed_stress_gain_mult = -10
+
+@ed_renown_low = 8
+@ed_renown_mid = 20
+@ed_renown_high = 40
+
+ed_renown_tier_value = {
+	value = 20
+	if = {
+		limit = { has_game_rule = ed_rule_renown_tier_low }
+		value = 8
+	}
+	else_if = {
+		limit = { has_game_rule = ed_rule_renown_tier_mid }
+		value = 20
+	}
+	else_if = {
+		limit = { has_game_rule = ed_rule_renown_tier_high }
+		value = 40
+	}
+}

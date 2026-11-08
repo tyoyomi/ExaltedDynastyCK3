@@ -1,0 +1,267 @@
+# Exalted Dynasty — scripted effects
+# House exaltation: house var ed_exalted + ed_exalter; members get trait + renown modifier.
+
+ed_clear_renown_modifiers_effect = {
+	remove_character_modifier = ed_exalted_renown_low_modifier
+	remove_character_modifier = ed_exalted_renown_mid_modifier
+	remove_character_modifier = ed_exalted_renown_high_modifier
+}
+
+ed_refresh_member_renown_effect = {
+	ed_clear_renown_modifiers_effect = yes
+	if = {
+		limit = {
+			has_trait = ed_exalted_dynast
+			NOT = { ed_should_skip_renown_for_sovereign = yes }
+		}
+		if = {
+			limit = { has_game_rule = ed_rule_renown_tier_low }
+			add_character_modifier = {
+				modifier = ed_exalted_renown_low_modifier
+			}
+		}
+		else_if = {
+			limit = { has_game_rule = ed_rule_renown_tier_high }
+			add_character_modifier = {
+				modifier = ed_exalted_renown_high_modifier
+			}
+		}
+		else = {
+			# mid default
+			add_character_modifier = {
+				modifier = ed_exalted_renown_mid_modifier
+			}
+		}
+	}
+}
+
+ed_apply_member_effect = {
+	if = {
+		limit = {
+			is_alive = yes
+			NOT = { has_trait = ed_exalted_dynast }
+		}
+		add_trait = ed_exalted_dynast
+		add_character_flag = ed_is_exalted_dynast
+		ed_refresh_member_renown_effect = yes
+		if = {
+			limit = { is_ai = no }
+			trigger_event = ed_events.1002
+		}
+	}
+	else_if = {
+		limit = {
+			is_alive = yes
+			has_trait = ed_exalted_dynast
+		}
+		# Already a member — refresh renown for mid-campaign rule changes
+		ed_refresh_member_renown_effect = yes
+	}
+}
+
+# Manual revoke / house-wide revoke flavor
+ed_strip_member_effect = {
+	if = {
+		limit = { has_trait = ed_exalted_dynast }
+		ed_clear_renown_modifiers_effect = yes
+		remove_trait = ed_exalted_dynast
+		remove_character_flag = ed_is_exalted_dynast
+	}
+}
+
+# Left-house strip — distinct notify flavor
+ed_strip_member_left_house_effect = {
+	if = {
+		limit = { has_trait = ed_exalted_dynast }
+		if = {
+			limit = { is_ai = no }
+			trigger_event = ed_events.1201
+		}
+		ed_clear_renown_modifiers_effect = yes
+		remove_trait = ed_exalted_dynast
+		remove_character_flag = ed_is_exalted_dynast
+	}
+}
+
+ed_evaluate_strip_member_effect = {
+	if = {
+		limit = { ed_should_strip_member = yes }
+		ed_strip_member_left_house_effect = yes
+	}
+}
+
+# this = any character; sync living members of scope:ed_target_house (or this.house)
+ed_sync_house_members_effect = {
+	if = {
+		limit = { exists = scope:ed_target_house }
+		scope:ed_target_house = { save_scope_as = ed_sync_house }
+	}
+	else_if = {
+		limit = { exists = house }
+		house = { save_scope_as = ed_sync_house }
+	}
+	if = {
+		limit = { exists = scope:ed_sync_house }
+		# Apply to living members of the exalted house
+		if = {
+			limit = {
+				scope:ed_sync_house = { ed_house_is_exalted = yes }
+			}
+			scope:ed_sync_house = {
+				every_house_member = {
+					limit = { is_alive = yes }
+					ed_apply_member_effect = yes
+				}
+			}
+		}
+	}
+}
+
+ed_exalt_house_effect = {
+	# Expect this = actor exalting their house
+	if = {
+		limit = {
+			is_alive = yes
+			exists = house
+			NOT = { ed_character_house_is_exalted = yes }
+		}
+		save_scope_as = ed_exalter_char
+		house = {
+			save_scope_as = ed_target_house
+			set_variable = {
+				name = ed_exalted
+				value = 1
+			}
+			set_variable = {
+				name = ed_exalter
+				value = scope:ed_exalter_char
+			}
+		}
+		ed_sync_house_members_effect = yes
+		if = {
+			limit = {
+				exists = scope:ed_exalter_char
+				scope:ed_exalter_char = { is_alive = yes is_ai = no }
+			}
+			scope:ed_exalter_char = {
+				trigger_event = ed_events.1001
+			}
+		}
+	}
+}
+
+ed_revoke_house_effect = {
+	# Expect this = actor (house head) revoking
+	if = {
+		limit = {
+			exists = house
+			ed_character_house_is_exalted = yes
+		}
+		save_scope_as = ed_revoker
+		house = {
+			save_scope_as = ed_target_house
+		}
+		scope:ed_target_house = {
+			every_house_member = {
+				limit = {
+					is_alive = yes
+					has_trait = ed_exalted_dynast
+				}
+				ed_strip_member_effect = yes
+			}
+			remove_variable = ed_exalted
+			remove_variable = ed_exalter
+		}
+		# Orphans with trait but wrong house (safety)
+		every_living_character = {
+			limit = {
+				has_trait = ed_exalted_dynast
+				OR = {
+					NOT = { exists = house }
+					NAND = {
+						exists = house
+						house = { ed_house_is_exalted = yes }
+					}
+				}
+			}
+			ed_strip_member_effect = yes
+		}
+		if = {
+			limit = {
+				exists = scope:ed_revoker
+				scope:ed_revoker = { is_alive = yes is_ai = no }
+			}
+			scope:ed_revoker = {
+				trigger_event = ed_events.1101
+			}
+		}
+	}
+}
+
+ed_on_birth_sync_effect = {
+	# this = newborn
+	if = {
+		limit = {
+			is_alive = yes
+			ed_character_house_is_exalted = yes
+		}
+		ed_apply_member_effect = yes
+	}
+}
+
+ed_on_member_death_cleanup_effect = {
+	if = {
+		limit = { has_trait = ed_exalted_dynast }
+		ed_clear_renown_modifiers_effect = yes
+		remove_character_flag = ed_is_exalted_dynast
+		# Trait dies with character
+	}
+}
+
+# Rebind house ed_exalter when the stored exalter dies, or on new house head
+ed_rebind_exalter_effect = {
+	# this = character context with a house
+	if = {
+		limit = {
+			exists = house
+			house = { ed_house_is_exalted = yes }
+		}
+		house = {
+			if = {
+				limit = {
+					exists = house_head
+					house_head = { is_alive = yes }
+				}
+				house_head = { save_scope_as = ed_new_exalter }
+				set_variable = {
+					name = ed_exalter
+					value = scope:ed_new_exalter
+				}
+			}
+			else = {
+				remove_variable = ed_exalter
+			}
+		}
+	}
+}
+
+ed_yearly_house_sync_effect = {
+	# Per living character pulse:
+	# - trait holders: strip if left exalted house
+	# - members of exalted houses: apply if missing / refresh renown
+	if = {
+		limit = { has_trait = ed_exalted_dynast }
+		ed_evaluate_strip_member_effect = yes
+		if = {
+			limit = { has_trait = ed_exalted_dynast }
+			ed_refresh_member_renown_effect = yes
+		}
+	}
+	else_if = {
+		limit = {
+			is_alive = yes
+			ed_character_house_is_exalted = yes
+		}
+		ed_apply_member_effect = yes
+	}
+}

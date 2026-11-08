@@ -1,0 +1,42 @@
+@ed_skill = 5
+@ed_health = 2
+@ed_monthly_prestige = 1
+@ed_monthly_piety = 2
+@ed_monthly_income = 2
+@ed_general_opinion = 25
+@ed_house_opinion = 10
+@ed_dynasty_member_opinion = 10
+@ed_stress_gain_mult = -10
+
+# Mild house-member identity + personal buffs.
+# Renown faucet lives on ed_exalted_renown_*_modifier (tier + SS stack rule).
+
+ed_exalted_dynast = {
+	category = fame
+	is_positive = yes
+	random_creation = 0
+	genetic = no
+	immortal = no
+	ai_rulers_use = no
+	good = yes
+	shown_in_ruler_designer = yes
+
+	diplomacy = @ed_skill
+	martial = @ed_skill
+	stewardship = @ed_skill
+	intrigue = @ed_skill
+	learning = @ed_skill
+	prowess = @ed_skill
+
+	monthly_prestige = @ed_monthly_prestige
+	monthly_piety = @ed_monthly_piety
+	monthly_income = @ed_monthly_income
+
+	health = @ed_health
+
+	general_opinion = @ed_general_opinion
+	house_opinion = @ed_house_opinion
+	dynasty_member_opinion = @ed_dynasty_member_opinion
+
+	stress_gain_mult = @ed_stress_gain_mult
+}

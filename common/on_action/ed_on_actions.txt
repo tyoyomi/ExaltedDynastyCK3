@@ -1,0 +1,73 @@
+# Exalted Dynasty — append-only vanilla hooks (never overwrite effect/trigger on vanilla roots)
+
+on_birth_child = {
+	on_actions = { ed_on_birth_child }
+}
+
+ed_on_birth_child = {
+	trigger = {
+		exists = house
+		ed_character_house_is_exalted = yes
+	}
+	effect = {
+		ed_on_birth_sync_effect = yes
+	}
+}
+
+random_yearly_everyone_pulse = {
+	on_actions = { ed_yearly_house_sync }
+}
+
+ed_yearly_house_sync = {
+	trigger = {
+		OR = {
+			has_trait = ed_exalted_dynast
+			ed_character_house_is_exalted = yes
+		}
+	}
+	effect = {
+		ed_yearly_house_sync_effect = yes
+	}
+}
+
+on_death = {
+	on_actions = { ed_on_death }
+}
+
+ed_on_death = {
+	effect = {
+		# Dying exalted member cleanup
+		if = {
+			limit = { has_trait = ed_exalted_dynast }
+			ed_on_member_death_cleanup_effect = yes
+		}
+		# Exalter died while house still exalted — rebind to current house head
+		if = {
+			limit = {
+				exists = house
+				house = {
+					ed_house_is_exalted = yes
+					exists = var:ed_exalter
+					var:ed_exalter = root
+				}
+			}
+			ed_rebind_exalter_effect = yes
+		}
+	}
+}
+
+on_became_house_head = {
+	on_actions = { ed_on_became_house_head }
+}
+
+ed_on_became_house_head = {
+	trigger = {
+		exists = house
+		ed_character_house_is_exalted = yes
+	}
+	effect = {
+		ed_rebind_exalter_effect = yes
+		# Ensure new head has member status
+		ed_apply_member_effect = yes
+	}
+}

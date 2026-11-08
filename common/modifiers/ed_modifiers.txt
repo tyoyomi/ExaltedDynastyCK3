@@ -1,0 +1,17 @@
+# Exalted Dynasty — renown faucet tiers (applied by ed_refresh_member_renown_effect)
+
+@ed_renown_low = 8
+@ed_renown_mid = 20
+@ed_renown_high = 40
+
+ed_exalted_renown_low_modifier = {
+	monthly_dynasty_prestige = @ed_renown_low
+}
+
+ed_exalted_renown_mid_modifier = {
+	monthly_dynasty_prestige = @ed_renown_mid
+}
+
+ed_exalted_renown_high_modifier = {
+	monthly_dynasty_prestige = @ed_renown_high
+}

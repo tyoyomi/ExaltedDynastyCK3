@@ -1,0 +1,99 @@
+ed_rule_granting = {
+	categories = {
+		tweaks
+		ai
+	}
+
+	default = ed_rule_granting_player_only
+
+	ed_rule_granting_player_only = {
+	}
+
+	ed_rule_granting_player_and_ai = {
+		flag = blocks_achievements
+	}
+
+	ed_rule_granting_disabled = {
+	}
+}
+
+ed_rule_who_may_exalt = {
+	categories = {
+		tweaks
+	}
+
+	default = ed_rule_who_may_exalt_house_head
+
+	ed_rule_who_may_exalt_house_head = {
+	}
+
+	ed_rule_who_may_exalt_dynasty_head = {
+	}
+
+	ed_rule_who_may_exalt_either = {
+	}
+}
+
+ed_rule_scope = {
+	categories = {
+		tweaks
+	}
+
+	default = ed_rule_scope_own_house_only
+
+	ed_rule_scope_own_house_only = {
+	}
+
+	ed_rule_scope_any_vassal_house = {
+		# v1 decisions only exalt own house; option reserved for future interactions
+	}
+}
+
+ed_rule_strip_on_leave_house = {
+	categories = {
+		tweaks
+	}
+
+	default = ed_rule_strip_on_leave_house_on
+
+	ed_rule_strip_on_leave_house_on = {
+	}
+
+	ed_rule_strip_on_leave_house_off = {
+	}
+}
+
+ed_rule_renown_tier = {
+	categories = {
+		tweaks
+	}
+
+	default = ed_rule_renown_tier_mid
+
+	ed_rule_renown_tier_low = {
+	}
+
+	ed_rule_renown_tier_mid = {
+	}
+
+	ed_rule_renown_tier_high = {
+		flag = blocks_achievements
+	}
+}
+
+ed_rule_stack_with_sovereign = {
+	categories = {
+		tweaks
+	}
+
+	default = ed_rule_stack_with_sovereign_skip_renown_on_sovereign
+
+	ed_rule_stack_with_sovereign_apply_full = {
+	}
+
+	ed_rule_stack_with_sovereign_skip_renown_on_sovereign = {
+	}
+
+	ed_rule_stack_with_sovereign_block_house_if_head_sovereign = {
+	}
+}

@@ -1,0 +1,93 @@
+namespace = ed_events
+
+# Player: house exalted
+ed_events.1001 = {
+	type = character_event
+	title = ed_events.1001.t
+	desc = ed_events.1001.desc
+	theme = dynasty
+
+	option = {
+		name = ed_events.1001.a
+	}
+}
+
+# Player: you gained exalted dynast status
+ed_events.1002 = {
+	type = character_event
+	title = ed_events.1002.t
+	desc = ed_events.1002.desc
+	theme = dynasty
+
+	option = {
+		name = ed_events.1002.a
+	}
+}
+
+# Player: house exaltation revoked
+ed_events.1101 = {
+	type = character_event
+	title = ed_events.1101.t
+	desc = ed_events.1101.desc
+	theme = dynasty
+
+	option = {
+		name = ed_events.1101.a
+	}
+}
+
+# Player: member status stripped — left house
+ed_events.1201 = {
+	type = character_event
+	title = ed_events.1201.t
+	desc = ed_events.1201.desc
+	theme = dynasty
+
+	option = {
+		name = ed_events.1201.a
+	}
+}
+
+# Management decision event
+ed_events.2001 = {
+	type = character_event
+	title = ed_events.2001.t
+	desc = ed_events.2001.desc
+	theme = dynasty
+
+	immediate = {
+		if = {
+			limit = { ed_character_house_is_exalted = yes }
+			house = {
+				every_house_member = {
+					limit = {
+						is_alive = yes
+						has_trait = ed_exalted_dynast
+					}
+					add_to_list = ed_exalted_members
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ed_events.2001.a
+		custom_tooltip = ed_events.2001.a_tt
+	}
+
+	option = {
+		name = ed_events.2001.b
+		trigger = {
+			ed_character_house_is_exalted = yes
+		}
+		custom_tooltip = ed_events.2001.b_tt
+	}
+
+	option = {
+		name = ed_events.2001.c
+		trigger = {
+			NOT = { ed_character_house_is_exalted = yes }
+		}
+		custom_tooltip = ed_events.2001.c_tt
+	}
+}
