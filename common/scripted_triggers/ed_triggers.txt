@@ -157,43 +157,7 @@ ed_actor_is_exalted_house_head = {
 	ed_character_house_is_exalted = yes
 }
 
-ed_can_buy_legacy_fertility = {
-	ed_actor_is_exalted_house_head = yes
-	ed_legacy_track_enabled = yes
-	exists = house
-	house = {
-		OR = {
-			NOT = { has_variable = ed_legacy_fertility }
-			var:ed_legacy_fertility < 3
-		}
-	}
-	exists = dynasty
-	dynasty = {
-		OR = {
-			AND = {
-				OR = {
-					NOT = { exists = house.var:ed_legacy_fertility }
-					house = { NOT = { has_variable = ed_legacy_fertility } }
-				}
-				dynasty_prestige >= 250
-			}
-			AND = {
-				house = { var:ed_legacy_fertility = 0 }
-				dynasty_prestige >= 250
-			}
-			AND = {
-				house = { var:ed_legacy_fertility = 1 }
-				dynasty_prestige >= 500
-			}
-			AND = {
-				house = { var:ed_legacy_fertility = 2 }
-				dynasty_prestige >= 1000
-			}
-		}
-	}
-}
-
-# Simpler afford/rank triggers used by hub (rank checked in effect too)
+# Afford/rank triggers used by hub (rank checked in effect too)
 ed_house_legacy_fertility_under_max = {
 	exists = house
 	house = {
