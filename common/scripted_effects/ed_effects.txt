@@ -1,5 +1,61 @@
 # Exalted Dynasty — scripted effects
 # House exaltation: house var ed_exalted + ed_exalter; members get trait + renown modifier.
+# Next-iter: cohesion pulse, legacy track, secondary exalt, SU pact peer, war banner.
+
+### Defaults / cfg
+
+ed_ensure_next_iter_defaults_effect = {
+	if = {
+		limit = { NOT = { has_variable = ed_cfg_cohesion_pulse } }
+		set_variable = { name = ed_cfg_cohesion_pulse value = 2 }
+	}
+	if = {
+		limit = { NOT = { has_variable = ed_cfg_war_banner } }
+		set_variable = { name = ed_cfg_war_banner value = 1 }
+	}
+}
+
+ed_cycle_cohesion_pulse_cfg_effect = {
+	ed_ensure_next_iter_defaults_effect = yes
+	if = {
+		limit = { var:ed_cfg_cohesion_pulse = 0 }
+		set_variable = { name = ed_cfg_cohesion_pulse value = 1 }
+	}
+	else_if = {
+		limit = { var:ed_cfg_cohesion_pulse = 1 }
+		set_variable = { name = ed_cfg_cohesion_pulse value = 2 }
+	}
+	else_if = {
+		limit = { var:ed_cfg_cohesion_pulse = 2 }
+		set_variable = { name = ed_cfg_cohesion_pulse value = 3 }
+	}
+	else = {
+		set_variable = { name = ed_cfg_cohesion_pulse value = 0 }
+	}
+}
+
+ed_cycle_war_banner_cfg_effect = {
+	ed_ensure_next_iter_defaults_effect = yes
+	if = {
+		limit = { var:ed_cfg_war_banner = 0 }
+		set_variable = { name = ed_cfg_war_banner value = 1 }
+	}
+	else = {
+		set_variable = { name = ed_cfg_war_banner value = 0 }
+	}
+	# Refresh banner on this house after toggle
+	if = {
+		limit = { exists = house ed_character_house_is_exalted = yes }
+		house = {
+			every_house_member = {
+				limit = { is_alive = yes has_trait = ed_exalted_dynast }
+				ed_refresh_war_banner_effect = yes
+			}
+		}
+	}
+}
+
+### Renown faucet
 
 ed_clear_renown_modifiers_effect = {
 	remove_character_modifier = ed_exalted_renown_low_modifier
@@ -35,6 +91,347 @@ ed_refresh_member_renown_effect = {
 	}
 }
 
+### Legacy track refresh / clear
+
+ed_clear_legacy_member_modifiers_effect = {
+	remove_character_modifier = ed_legacy_fertility_1_modifier
+	remove_character_modifier = ed_legacy_fertility_2_modifier
+	remove_character_modifier = ed_legacy_fertility_3_modifier
+	remove_character_modifier = ed_legacy_knight_1_modifier
+	remove_character_modifier = ed_legacy_knight_2_modifier
+	remove_character_modifier = ed_legacy_knight_3_modifier
+	remove_character_modifier = ed_legacy_glory_1_modifier
+	remove_character_modifier = ed_legacy_glory_2_modifier
+	remove_character_modifier = ed_legacy_glory_3_modifier
+}
+
+ed_refresh_house_legacy_modifiers_effect = {
+	# this = living exalted member; reads this.house legacy vars
+	ed_clear_legacy_member_modifiers_effect = yes
+	if = {
+		limit = {
+			is_alive = yes
+			has_trait = ed_exalted_dynast
+			ed_character_house_is_exalted = yes
+			ed_legacy_track_enabled = yes
+		}
+		# Blood — all members
+		if = {
+			limit = { house = { has_variable = ed_legacy_fertility var:ed_legacy_fertility = 1 } }
+			add_character_modifier = { modifier = ed_legacy_fertility_1_modifier }
+		}
+		else_if = {
+			limit = { house = { has_variable = ed_legacy_fertility var:ed_legacy_fertility = 2 } }
+			add_character_modifier = { modifier = ed_legacy_fertility_2_modifier }
+		}
+		else_if = {
+			limit = { house = { has_variable = ed_legacy_fertility var:ed_legacy_fertility = 3 } }
+			add_character_modifier = { modifier = ed_legacy_fertility_3_modifier }
+		}
+		# Steel — all members
+		if = {
+			limit = { house = { has_variable = ed_legacy_knight var:ed_legacy_knight = 1 } }
+			add_character_modifier = { modifier = ed_legacy_knight_1_modifier }
+		}
+		else_if = {
+			limit = { house = { has_variable = ed_legacy_knight var:ed_legacy_knight = 2 } }
+			add_character_modifier = { modifier = ed_legacy_knight_2_modifier }
+		}
+		else_if = {
+			limit = { house = { has_variable = ed_legacy_knight var:ed_legacy_knight = 3 } }
+			add_character_modifier = { modifier = ed_legacy_knight_3_modifier }
+		}
+		# Glory — house head only
+		if = {
+			limit = { is_house_head = yes }
+			if = {
+				limit = { house = { has_variable = ed_legacy_prestige var:ed_legacy_prestige = 1 } }
+				add_character_modifier = { modifier = ed_legacy_glory_1_modifier }
+			}
+			else_if = {
+				limit = { house = { has_variable = ed_legacy_prestige var:ed_legacy_prestige = 2 } }
+				add_character_modifier = { modifier = ed_legacy_glory_2_modifier }
+			}
+			else_if = {
+				limit = { house = { has_variable = ed_legacy_prestige var:ed_legacy_prestige = 3 } }
+				add_character_modifier = { modifier = ed_legacy_glory_3_modifier }
+			}
+		}
+	}
+}
+
+ed_sync_house_legacy_to_members_effect = {
+	# this = any; sync scope:ed_target_house or this.house
+	if = {
+		limit = { exists = scope:ed_target_house }
+		scope:ed_target_house = { save_scope_as = ed_legacy_house }
+	}
+	else_if = {
+		limit = { exists = house }
+		house = { save_scope_as = ed_legacy_house }
+	}
+	if = {
+		limit = {
+			exists = scope:ed_legacy_house
+			scope:ed_legacy_house = { ed_house_is_exalted = yes }
+		}
+		scope:ed_legacy_house = {
+			every_house_member = {
+				limit = { is_alive = yes has_trait = ed_exalted_dynast }
+				ed_refresh_house_legacy_modifiers_effect = yes
+			}
+		}
+	}
+}
+
+ed_buy_legacy_fertility_effect = {
+	if = {
+		limit = { ed_can_buy_legacy_rank = yes ed_house_legacy_fertility_under_max = yes }
+		house = {
+			if = {
+				limit = { NOT = { has_variable = ed_legacy_fertility } }
+				set_variable = { name = ed_legacy_fertility value = 0 }
+			}
+		}
+		if = {
+			limit = {
+				house = { var:ed_legacy_fertility = 0 }
+				ed_dynasty_can_afford_legacy_rank_1 = yes
+			}
+			dynasty = { add_dynasty_prestige = -250 }
+			house = { set_variable = { name = ed_legacy_fertility value = 1 } }
+			ed_sync_house_legacy_to_members_effect = yes
+		}
+		else_if = {
+			limit = {
+				house = { var:ed_legacy_fertility = 1 }
+				ed_dynasty_can_afford_legacy_rank_2 = yes
+			}
+			dynasty = { add_dynasty_prestige = -500 }
+			house = { set_variable = { name = ed_legacy_fertility value = 2 } }
+			ed_sync_house_legacy_to_members_effect = yes
+		}
+		else_if = {
+			limit = {
+				house = { var:ed_legacy_fertility = 2 }
+				ed_dynasty_can_afford_legacy_rank_3 = yes
+			}
+			dynasty = { add_dynasty_prestige = -1000 }
+			house = { set_variable = { name = ed_legacy_fertility value = 3 } }
+			ed_sync_house_legacy_to_members_effect = yes
+		}
+	}
+}
+
+ed_buy_legacy_knight_effect = {
+	if = {
+		limit = { ed_can_buy_legacy_rank = yes ed_house_legacy_knight_under_max = yes }
+		house = {
+			if = {
+				limit = { NOT = { has_variable = ed_legacy_knight } }
+				set_variable = { name = ed_legacy_knight value = 0 }
+			}
+		}
+		if = {
+			limit = {
+				house = { var:ed_legacy_knight = 0 }
+				ed_dynasty_can_afford_legacy_rank_1 = yes
+			}
+			dynasty = { add_dynasty_prestige = -250 }
+			house = { set_variable = { name = ed_legacy_knight value = 1 } }
+			ed_sync_house_legacy_to_members_effect = yes
+		}
+		else_if = {
+			limit = {
+				house = { var:ed_legacy_knight = 1 }
+				ed_dynasty_can_afford_legacy_rank_2 = yes
+			}
+			dynasty = { add_dynasty_prestige = -500 }
+			house = { set_variable = { name = ed_legacy_knight value = 2 } }
+			ed_sync_house_legacy_to_members_effect = yes
+		}
+		else_if = {
+			limit = {
+				house = { var:ed_legacy_knight = 2 }
+				ed_dynasty_can_afford_legacy_rank_3 = yes
+			}
+			dynasty = { add_dynasty_prestige = -1000 }
+			house = { set_variable = { name = ed_legacy_knight value = 3 } }
+			ed_sync_house_legacy_to_members_effect = yes
+		}
+	}
+}
+
+ed_buy_legacy_prestige_effect = {
+	if = {
+		limit = { ed_can_buy_legacy_rank = yes ed_house_legacy_prestige_under_max = yes }
+		house = {
+			if = {
+				limit = { NOT = { has_variable = ed_legacy_prestige } }
+				set_variable = { name = ed_legacy_prestige value = 0 }
+			}
+		}
+		if = {
+			limit = {
+				house = { var:ed_legacy_prestige = 0 }
+				ed_dynasty_can_afford_legacy_rank_1 = yes
+			}
+			dynasty = { add_dynasty_prestige = -250 }
+			house = { set_variable = { name = ed_legacy_prestige value = 1 } }
+			ed_sync_house_legacy_to_members_effect = yes
+		}
+		else_if = {
+			limit = {
+				house = { var:ed_legacy_prestige = 1 }
+				ed_dynasty_can_afford_legacy_rank_2 = yes
+			}
+			dynasty = { add_dynasty_prestige = -500 }
+			house = { set_variable = { name = ed_legacy_prestige value = 2 } }
+			ed_sync_house_legacy_to_members_effect = yes
+		}
+		else_if = {
+			limit = {
+				house = { var:ed_legacy_prestige = 2 }
+				ed_dynasty_can_afford_legacy_rank_3 = yes
+			}
+			dynasty = { add_dynasty_prestige = -1000 }
+			house = { set_variable = { name = ed_legacy_prestige value = 3 } }
+			ed_sync_house_legacy_to_members_effect = yes
+		}
+	}
+}
+
+### War banner
+
+ed_clear_war_banner_effect = {
+	remove_character_modifier = ed_house_war_banner_modifier
+}
+
+ed_refresh_war_banner_effect = {
+	ed_clear_war_banner_effect = yes
+	if = {
+		limit = {
+			is_alive = yes
+			has_trait = ed_exalted_dynast
+			ed_character_house_is_exalted = yes
+			# Prefer house-head cfg; fall back to self cfg / default On
+			OR = {
+				AND = {
+					exists = house
+					house = {
+						exists = house_head
+						house_head = { ed_war_banner_cfg_on = yes }
+					}
+				}
+				ed_war_banner_cfg_on = yes
+			}
+		}
+		add_character_modifier = { modifier = ed_house_war_banner_modifier }
+	}
+}
+
+### SU pact soft peer
+
+ed_clear_pact_soft_peer_effect = {
+	remove_character_modifier = ed_soft_glue_kindred_modifier
+	if = {
+		limit = {
+			exists = dynasty
+			dynasty = { exists = dynast }
+		}
+		dynasty = {
+			dynast = { save_scope_as = ed_pact_target }
+		}
+		if = {
+			limit = { exists = scope:ed_pact_target }
+			remove_opinion = {
+				target = scope:ed_pact_target
+				modifier = ed_pact_kindred_opinion
+			}
+		}
+	}
+}
+
+ed_refresh_pact_soft_peer_effect = {
+	# this = exalted member
+	if = {
+		limit = {
+			is_alive = yes
+			has_trait = ed_exalted_dynast
+			ed_character_house_is_exalted = yes
+		}
+		# Pact kindred opinion toward living dynast while pact armed
+		if = {
+			limit = { ed_su_pact_active_on_dynast = yes }
+			dynasty = {
+				dynast = { save_scope_as = ed_pact_holder }
+			}
+			if = {
+				limit = {
+					exists = scope:ed_pact_holder
+					scope:ed_pact_holder = { is_alive = yes }
+					NOT = { this = scope:ed_pact_holder }
+				}
+				add_opinion = {
+					target = scope:ed_pact_holder
+					modifier = ed_pact_kindred_opinion
+				}
+			}
+		}
+		else = {
+			ed_clear_pact_soft_peer_effect = yes
+		}
+		# Soft Glue crumb: exalted members while Soft Glue is active on self or dynast
+		remove_character_modifier = ed_soft_glue_kindred_modifier
+		if = {
+			limit = {
+				OR = {
+					ed_su_soft_glue_active_on = yes
+					AND = {
+						exists = dynasty
+						dynasty = {
+							exists = dynast
+							dynast = {
+								is_alive = yes
+								has_variable = su_soft_glue_active
+							}
+						}
+					}
+				}
+			}
+			add_character_modifier = {
+				modifier = ed_soft_glue_kindred_modifier
+				years = 1
+			}
+			if = {
+				limit = {
+					exists = dynasty
+					dynasty = {
+						exists = dynast
+						dynast = { is_alive = yes }
+					}
+				}
+				dynasty = { dynast = { save_scope_as = ed_glue_head } }
+				if = {
+					limit = {
+						exists = scope:ed_glue_head
+						NOT = { this = scope:ed_glue_head }
+					}
+					add_opinion = {
+						target = scope:ed_glue_head
+						modifier = ed_soft_glue_kindred_opinion
+					}
+				}
+			}
+		}
+	}
+	else = {
+		ed_clear_pact_soft_peer_effect = yes
+	}
+}
+
+### Member apply / strip
+
 ed_apply_member_effect = {
 	if = {
 		limit = {
@@ -44,6 +441,9 @@ ed_apply_member_effect = {
 		add_trait = ed_exalted_dynast
 		add_character_flag = ed_is_exalted_dynast
 		ed_refresh_member_renown_effect = yes
+		ed_refresh_house_legacy_modifiers_effect = yes
+		ed_refresh_war_banner_effect = yes
+		ed_refresh_pact_soft_peer_effect = yes
 		if = {
 			limit = { is_ai = no }
 			trigger_event = ed_events.1002
@@ -54,8 +454,11 @@ ed_apply_member_effect = {
 			is_alive = yes
 			has_trait = ed_exalted_dynast
 		}
-		# Already a member — refresh renown for mid-campaign rule changes
+		# Already a member — refresh renown / next-iter packages
 		ed_refresh_member_renown_effect = yes
+		ed_refresh_house_legacy_modifiers_effect = yes
+		ed_refresh_war_banner_effect = yes
+		ed_refresh_pact_soft_peer_effect = yes
 	}
 }
 
@@ -64,6 +467,10 @@ ed_strip_member_effect = {
 	if = {
 		limit = { has_trait = ed_exalted_dynast }
 		ed_clear_renown_modifiers_effect = yes
+		ed_clear_legacy_member_modifiers_effect = yes
+		ed_clear_war_banner_effect = yes
+		ed_clear_pact_soft_peer_effect = yes
+		remove_character_modifier = ed_cohesion_united_blood_modifier
 		remove_trait = ed_exalted_dynast
 		remove_character_flag = ed_is_exalted_dynast
 	}
@@ -78,6 +485,10 @@ ed_strip_member_left_house_effect = {
 			trigger_event = ed_events.1201
 		}
 		ed_clear_renown_modifiers_effect = yes
+		ed_clear_legacy_member_modifiers_effect = yes
+		ed_clear_war_banner_effect = yes
+		ed_clear_pact_soft_peer_effect = yes
+		remove_character_modifier = ed_cohesion_united_blood_modifier
 		remove_trait = ed_exalted_dynast
 		remove_character_flag = ed_is_exalted_dynast
 	}
@@ -117,14 +528,43 @@ ed_sync_house_members_effect = {
 	}
 }
 
+ed_clear_house_exalt_vars_effect = {
+	# this = house — decrement dynasty secondary count if this was a secondary
+	if = {
+		limit = {
+			has_variable = ed_exalted_secondary
+			exists = house_head
+			house_head = { exists = dynasty }
+		}
+		house_head = {
+			dynasty = {
+				if = {
+					limit = {
+						has_variable = ed_secondary_exalt_count
+						var:ed_secondary_exalt_count > 0
+					}
+					change_variable = { name = ed_secondary_exalt_count subtract = 1 }
+				}
+			}
+		}
+	}
+	remove_variable = ed_exalted
+	remove_variable = ed_exalter
+	remove_variable = ed_exalted_secondary
+	remove_variable = ed_legacy_fertility
+	remove_variable = ed_legacy_knight
+	remove_variable = ed_legacy_prestige
+}
+
 ed_exalt_house_effect = {
-	# Expect this = actor exalting their house
+	# Expect this = actor exalting their house (PRIMARY)
 	if = {
 		limit = {
 			is_alive = yes
 			exists = house
 			NOT = { ed_character_house_is_exalted = yes }
 		}
+		ed_ensure_next_iter_defaults_effect = yes
 		save_scope_as = ed_exalter_char
 		house = {
 			save_scope_as = ed_target_house
@@ -135,6 +575,23 @@ ed_exalt_house_effect = {
 			set_variable = {
 				name = ed_exalter
 				value = scope:ed_exalter_char
+			}
+			# Ensure not marked secondary
+			if = {
+				limit = { has_variable = ed_exalted_secondary }
+				remove_variable = ed_exalted_secondary
+			}
+			if = {
+				limit = { NOT = { has_variable = ed_legacy_fertility } }
+				set_variable = { name = ed_legacy_fertility value = 0 }
+			}
+			if = {
+				limit = { NOT = { has_variable = ed_legacy_knight } }
+				set_variable = { name = ed_legacy_knight value = 0 }
+			}
+			if = {
+				limit = { NOT = { has_variable = ed_legacy_prestige } }
+				set_variable = { name = ed_legacy_prestige value = 0 }
 			}
 		}
 		ed_sync_house_members_effect = yes
@@ -150,8 +607,73 @@ ed_exalt_house_effect = {
 	}
 }
 
+ed_exalt_secondary_house_effect = {
+	# Expect this = actor (primary exalted house head)
+	# scope:ed_target_house = cadet house to bless OR scope:ed_cadet_head with a house
+	save_scope_as = ed_exalter_char
+	if = {
+		limit = {
+			exists = scope:ed_cadet_head
+			scope:ed_cadet_head = { exists = house }
+		}
+		scope:ed_cadet_head = {
+			house = { save_scope_as = ed_target_house }
+		}
+	}
+	ed_recount_secondary_exalts_effect = yes
+	if = {
+		limit = {
+			ed_actor_heads_primary_exalted_house = yes
+			ed_actor_may_exalt_by_granting_rule = yes
+			ed_under_secondary_cap = yes
+			exists = dynasty
+			exists = scope:ed_target_house
+			scope:ed_target_house = { NOT = { ed_house_is_exalted = yes } }
+			exists = scope:ed_cadet_head
+			scope:ed_cadet_head = {
+				is_alive = yes
+				is_house_head = yes
+				exists = dynasty
+				dynasty = scope:ed_exalter_char.dynasty
+			}
+		}
+		scope:ed_target_house = {
+			set_variable = { name = ed_exalted value = 1 }
+			set_variable = { name = ed_exalted_secondary value = 1 }
+			set_variable = {
+				name = ed_exalter
+				value = scope:ed_exalter_char
+			}
+			set_variable = { name = ed_legacy_fertility value = 0 }
+			set_variable = { name = ed_legacy_knight value = 0 }
+			set_variable = { name = ed_legacy_prestige value = 0 }
+		}
+		# Dynasty secondary count
+		if = {
+			limit = { exists = dynasty }
+			dynasty = {
+				if = {
+					limit = { NOT = { has_variable = ed_secondary_exalt_count } }
+					set_variable = { name = ed_secondary_exalt_count value = 0 }
+				}
+				change_variable = { name = ed_secondary_exalt_count add = 1 }
+			}
+		}
+		ed_sync_house_members_effect = yes
+		if = {
+			limit = {
+				exists = scope:ed_exalter_char
+				scope:ed_exalter_char = { is_alive = yes is_ai = no }
+			}
+			scope:ed_exalter_char = {
+				trigger_event = ed_events.3202
+			}
+		}
+	}
+}
+
 ed_revoke_house_effect = {
-	# Expect this = actor (house head) revoking
+	# Expect this = actor (house head) revoking own house — no cascade to other houses
 	if = {
 		limit = {
 			exists = house
@@ -169,10 +691,9 @@ ed_revoke_house_effect = {
 				}
 				ed_strip_member_effect = yes
 			}
-			remove_variable = ed_exalted
-			remove_variable = ed_exalter
+			ed_clear_house_exalt_vars_effect = yes
 		}
-		# Orphans with trait but wrong house (safety)
+		# Orphans with trait but wrong house (safety) — existing path; do not widen
 		every_living_character = {
 			limit = {
 				has_trait = ed_exalted_dynast
@@ -198,6 +719,35 @@ ed_revoke_house_effect = {
 	}
 }
 
+# Stored exalter may revoke a secondary house they blessed (scope:ed_target_house)
+ed_revoke_secondary_house_as_exalter_effect = {
+	save_scope_as = ed_revoker
+	if = {
+		limit = {
+			exists = scope:ed_target_house
+			scope:ed_target_house = {
+				ed_house_is_secondary_exalted = yes
+				exists = var:ed_exalter
+				var:ed_exalter = scope:ed_revoker
+			}
+		}
+		scope:ed_target_house = {
+			every_house_member = {
+				limit = { is_alive = yes has_trait = ed_exalted_dynast }
+				ed_strip_member_effect = yes
+			}
+			ed_clear_house_exalt_vars_effect = yes
+		}
+		if = {
+			limit = {
+				exists = scope:ed_revoker
+				scope:ed_revoker = { is_alive = yes is_ai = no }
+			}
+			scope:ed_revoker = { trigger_event = ed_events.1101 }
+		}
+	}
+}
+
 ed_on_birth_sync_effect = {
 	# this = newborn
 	if = {
@@ -213,6 +763,9 @@ ed_on_member_death_cleanup_effect = {
 	if = {
 		limit = { has_trait = ed_exalted_dynast }
 		ed_clear_renown_modifiers_effect = yes
+		ed_clear_legacy_member_modifiers_effect = yes
+		ed_clear_war_banner_effect = yes
+		ed_clear_pact_soft_peer_effect = yes
 		remove_character_flag = ed_is_exalted_dynast
 		# Trait dies with character
 	}
@@ -248,13 +801,16 @@ ed_rebind_exalter_effect = {
 ed_yearly_house_sync_effect = {
 	# Per living character pulse:
 	# - trait holders: strip if left exalted house
-	# - members of exalted houses: apply if missing / refresh renown
+	# - members of exalted houses: apply if missing / refresh packages
 	if = {
 		limit = { has_trait = ed_exalted_dynast }
 		ed_evaluate_strip_member_effect = yes
 		if = {
 			limit = { has_trait = ed_exalted_dynast }
 			ed_refresh_member_renown_effect = yes
+			ed_refresh_house_legacy_modifiers_effect = yes
+			ed_refresh_war_banner_effect = yes
+			ed_refresh_pact_soft_peer_effect = yes
 		}
 	}
 	else_if = {
@@ -326,5 +882,114 @@ ed_auto_strip_left_house_members_effect = {
 		}
 		ed_strip_member_left_house_effect = yes
 		scope:ed_strip_actor = { change_variable = { name = ed_auto_strip_count add = 1 } }
+	}
+}
+
+### Secondary count
+
+ed_recount_secondary_exalts_effect = {
+	# Rebuild dynasty + character secondary counts from living house heads (bound to dynasty)
+	save_scope_as = ed_counter
+	set_variable = { name = ed_secondary_count value = 0 }
+	if = {
+		limit = { exists = dynasty }
+		dynasty = {
+			set_variable = { name = ed_secondary_exalt_count value = 0 }
+			every_dynasty_member = {
+				limit = {
+					is_alive = yes
+					is_house_head = yes
+					exists = house
+					house = {
+						ed_house_is_secondary_exalted = yes
+					}
+				}
+				change_variable = { name = ed_secondary_exalt_count add = 1 }
+				scope:ed_counter = {
+					change_variable = { name = ed_secondary_count add = 1 }
+				}
+			}
+		}
+	}
+}
+
+### Cohesion pulse
+
+ed_cohesion_pulse_effect = {
+	if = {
+		limit = { ed_can_cohesion_pulse = yes }
+		ed_ensure_next_iter_defaults_effect = yes
+		save_scope_as = ed_pulse_actor
+		house = { save_scope_as = ed_pulse_house }
+		save_scope_as = ed_pulse_head
+		# Renown splash
+		if = {
+			limit = { exists = dynasty }
+			if = {
+				limit = { var:ed_cfg_cohesion_pulse = 1 }
+				dynasty = { add_dynasty_prestige = 25 }
+			}
+			else_if = {
+				limit = { var:ed_cfg_cohesion_pulse = 3 }
+				dynasty = { add_dynasty_prestige = 100 }
+			}
+			else = {
+				# Med default (2)
+				dynasty = { add_dynasty_prestige = 50 }
+			}
+		}
+		set_variable = { name = ed_cohesion_applied value = 0 }
+		# Apply united-blood + opinion toward house head (capped @ 40)
+		if = {
+			limit = { exists = scope:ed_pulse_house }
+			scope:ed_pulse_house = {
+				every_house_member = {
+					limit = {
+						is_alive = yes
+						scope:ed_pulse_actor = {
+							OR = {
+								NOT = { has_variable = ed_cohesion_applied }
+								var:ed_cohesion_applied < 40
+							}
+						}
+					}
+					add_character_modifier = {
+						modifier = ed_cohesion_united_blood_modifier
+						years = 5
+					}
+					if = {
+						limit = {
+							exists = scope:ed_pulse_head
+							NOT = { this = scope:ed_pulse_head }
+						}
+						if = {
+							limit = { scope:ed_pulse_actor = { var:ed_cfg_cohesion_pulse = 1 } }
+							add_opinion = {
+								target = scope:ed_pulse_head
+								modifier = ed_cohesion_kin_opinion_low
+							}
+						}
+						else_if = {
+							limit = { scope:ed_pulse_actor = { var:ed_cfg_cohesion_pulse = 3 } }
+							add_opinion = {
+								target = scope:ed_pulse_head
+								modifier = ed_cohesion_kin_opinion_high
+							}
+						}
+						else = {
+							add_opinion = {
+								target = scope:ed_pulse_head
+								modifier = ed_cohesion_kin_opinion_mid
+							}
+						}
+					}
+					ed_refresh_pact_soft_peer_effect = yes
+					scope:ed_pulse_actor = {
+						change_variable = { name = ed_cohesion_applied add = 1 }
+					}
+				}
+			}
+		}
+		trigger_event = ed_events.3001
 	}
 }

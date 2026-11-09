@@ -1,0 +1,65 @@
+# Exalted Dynasty — secondary (cadet) house blessing
+
+ed_bless_secondary_house_interaction = {
+	category = interaction_category_friendly
+	icon = dynasty_interaction
+	interface_priority = 40
+	common_interaction = yes
+
+	desc = ed_bless_secondary_house_interaction_desc
+	auto_accept = yes
+
+	is_shown = {
+		scope:actor = {
+			is_alive = yes
+			is_ai = no
+			ed_actor_heads_primary_exalted_house = yes
+			ed_actor_may_exalt_by_granting_rule = yes
+			NOT = { has_game_rule = ed_rule_secondary_cap_0 }
+		}
+		scope:recipient = {
+			is_alive = yes
+			is_house_head = yes
+			exists = house
+			exists = dynasty
+			NOT = { this = scope:actor }
+			NOT = { house = scope:actor.house }
+			dynasty = scope:actor.dynasty
+			NOT = { ed_character_house_is_exalted = yes }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			custom_tooltip = {
+				text = ed_tt_under_secondary_cap
+				ed_under_secondary_cap = yes
+			}
+		}
+		scope:recipient = {
+			custom_tooltip = {
+				text = ed_tt_cadet_house_not_exalted
+				NOT = { ed_character_house_is_exalted = yes }
+			}
+			custom_tooltip = {
+				text = ed_tt_same_dynasty_cadet
+				exists = dynasty
+				dynasty = scope:actor.dynasty
+			}
+		}
+	}
+
+	on_accept = {
+		scope:recipient = {
+			save_scope_as = ed_cadet_head
+			house = { save_scope_as = ed_target_house }
+		}
+		scope:actor = {
+			ed_exalt_secondary_house_effect = yes
+		}
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}

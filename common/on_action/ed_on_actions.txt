@@ -71,3 +71,17 @@ ed_on_became_house_head = {
 		ed_apply_member_effect = yes
 	}
 }
+
+# Next-iter — cohesion pulse (shape mirror of SS Legacy Pulse)
+five_year_playable_pulse = {
+	on_actions = { ed_cohesion_pulse_on_action }
+}
+
+ed_cohesion_pulse_on_action = {
+	trigger = {
+		ed_can_cohesion_pulse = yes
+	}
+	effect = {
+		ed_cohesion_pulse_effect = yes
+	}
+}

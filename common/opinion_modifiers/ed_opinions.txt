@@ -1,0 +1,31 @@
+# Exalted Dynasty — directed opinions (cohesion pulse + SU pact soft peer)
+
+ed_cohesion_kin_opinion_low = {
+	opinion = 10
+	years = 5
+	decaying = no
+}
+
+ed_cohesion_kin_opinion_mid = {
+	opinion = 15
+	years = 5
+	decaying = no
+}
+
+ed_cohesion_kin_opinion_high = {
+	opinion = 25
+	years = 5
+	decaying = no
+}
+
+# Toward Dynasty Pact enabler / dynast while pact armed (helps SU11 ≥25)
+ed_pact_kindred_opinion = {
+	opinion = 20
+	yearly_decay = 1
+}
+
+ed_soft_glue_kindred_opinion = {
+	opinion = 10
+	years = 1
+	decaying = no
+}

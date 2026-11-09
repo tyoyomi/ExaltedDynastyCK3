@@ -48,7 +48,7 @@ ed_events.1201 = {
 	}
 }
 
-# Management decision event
+# Legacy manage redirect → hub
 ed_events.2001 = {
 	type = character_event
 	title = ed_events.2001.t
@@ -56,39 +56,14 @@ ed_events.2001 = {
 	theme = dynasty
 
 	immediate = {
-		if = {
-			limit = { ed_character_house_is_exalted = yes }
-			house = {
-				every_house_member = {
-					limit = {
-						is_alive = yes
-						has_trait = ed_exalted_dynast
-					}
-					add_to_list = ed_exalted_members
-				}
-			}
-		}
+		ed_ensure_next_iter_defaults_effect = yes
+		ed_recount_secondary_exalts_effect = yes
 	}
 
 	option = {
 		name = ed_events.2001.a
 		custom_tooltip = ed_events.2001.a_tt
-	}
-
-	option = {
-		name = ed_events.2001.b
-		trigger = {
-			ed_character_house_is_exalted = yes
-		}
-		custom_tooltip = ed_events.2001.b_tt
-	}
-
-	option = {
-		name = ed_events.2001.c
-		trigger = {
-			NOT = { ed_character_house_is_exalted = yes }
-		}
-		custom_tooltip = ed_events.2001.c_tt
+		trigger_event = ed_settings.1001
 	}
 }
 
@@ -106,4 +81,36 @@ ed_events.1502 = {
 	desc = ed_events.1502.desc
 	theme = dynasty
 	option = { name = ed_events.1502.a }
+}
+
+# Cohesion pulse toast
+ed_events.3001 = {
+	type = character_event
+	title = ed_events.3001.t
+	desc = ed_events.3001.desc
+	theme = dynasty
+	option = { name = ed_events.3001.a }
+}
+
+# Bless cadet house — how-to from hub
+ed_events.3201 = {
+	type = character_event
+	title = ed_events.3201.t
+	desc = ed_events.3201.desc
+	theme = dynasty
+
+	option = {
+		name = ed_events.3201.a
+		custom_tooltip = ed_events.3201.a_tt
+		trigger_event = ed_settings.1001
+	}
+}
+
+# Secondary house blessed confirm
+ed_events.3202 = {
+	type = character_event
+	title = ed_events.3202.t
+	desc = ed_events.3202.desc
+	theme = dynasty
+	option = { name = ed_events.3202.a }
 }

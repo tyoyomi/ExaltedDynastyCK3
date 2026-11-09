@@ -1,0 +1,291 @@
+namespace = ed_settings
+
+# Manage Exalted Dynasty — page 1 (status + cohesion + banner + legacies + bless)
+ed_settings.1001 = {
+	type = character_event
+	title = ed_settings.1001.t
+	theme = dynasty
+
+	desc = {
+		desc = ed_settings.1001.desc_intro
+		first_valid = {
+			triggered_desc = {
+				trigger = { ed_character_house_is_primary_exalted = yes }
+				desc = ed_settings.status.primary
+			}
+			triggered_desc = {
+				trigger = { ed_character_house_is_secondary_exalted = yes }
+				desc = ed_settings.status.secondary
+			}
+			desc = ed_settings.status.none
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:ed_cfg_cohesion_pulse = 0 }
+				desc = ed_settings.cohesion.off
+			}
+			triggered_desc = {
+				trigger = { var:ed_cfg_cohesion_pulse = 1 }
+				desc = ed_settings.cohesion.low
+			}
+			triggered_desc = {
+				trigger = { var:ed_cfg_cohesion_pulse = 3 }
+				desc = ed_settings.cohesion.high
+			}
+			desc = ed_settings.cohesion.med
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:ed_cfg_war_banner = 0 }
+				desc = ed_settings.banner.off
+			}
+			desc = ed_settings.banner.on
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = { ed_su_pact_active_on_dynast = yes }
+				desc = ed_settings.pact.active
+			}
+			desc = ed_settings.pact.inactive
+		}
+		desc = ed_settings.1001.desc_footer
+	}
+
+	immediate = {
+		ed_ensure_next_iter_defaults_effect = yes
+		ed_recount_secondary_exalts_effect = yes
+	}
+
+	option = {
+		name = ed_settings.1001.close
+		custom_tooltip = ed_settings.tt.close
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { var:ed_cfg_cohesion_pulse = 0 }
+						desc = ed_settings.opt.cohesion_off
+					}
+					triggered_desc = {
+						trigger = { var:ed_cfg_cohesion_pulse = 1 }
+						desc = ed_settings.opt.cohesion_low
+					}
+					triggered_desc = {
+						trigger = { var:ed_cfg_cohesion_pulse = 3 }
+						desc = ed_settings.opt.cohesion_high
+					}
+					desc = ed_settings.opt.cohesion_med
+				}
+			}
+		}
+		custom_tooltip = ed_settings.tt.cohesion
+		ed_cycle_cohesion_pulse_cfg_effect = yes
+		trigger_event = ed_settings.1001
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { var:ed_cfg_war_banner = 0 }
+						desc = ed_settings.opt.banner_off
+					}
+					desc = ed_settings.opt.banner_on
+				}
+			}
+		}
+		custom_tooltip = ed_settings.tt.banner
+		ed_cycle_war_banner_cfg_effect = yes
+		trigger_event = ed_settings.1001
+	}
+
+	option = {
+		name = ed_settings.1001.legacies
+		trigger = {
+			ed_character_house_is_exalted = yes
+			ed_legacy_track_enabled = yes
+			is_house_head = yes
+		}
+		custom_tooltip = ed_settings.tt.legacies
+		trigger_event = ed_settings.1002
+	}
+
+	option = {
+		name = ed_settings.1001.bless
+		trigger = {
+			ed_actor_heads_primary_exalted_house = yes
+			NOT = { has_game_rule = ed_rule_secondary_cap_0 }
+		}
+		custom_tooltip = ed_settings.tt.bless
+		trigger_event = ed_events.3201
+	}
+}
+
+# Legacy spend page
+ed_settings.1002 = {
+	type = character_event
+	title = ed_settings.1002.t
+	theme = dynasty
+
+	desc = {
+		desc = ed_settings.1002.desc_intro
+		first_valid = {
+			triggered_desc = {
+				trigger = { house = { var:ed_legacy_fertility = 1 } }
+				desc = ed_settings.legacy.blood_1
+			}
+			triggered_desc = {
+				trigger = { house = { var:ed_legacy_fertility = 2 } }
+				desc = ed_settings.legacy.blood_2
+			}
+			triggered_desc = {
+				trigger = { house = { var:ed_legacy_fertility = 3 } }
+				desc = ed_settings.legacy.blood_3
+			}
+			desc = ed_settings.legacy.blood_0
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = { house = { var:ed_legacy_knight = 1 } }
+				desc = ed_settings.legacy.steel_1
+			}
+			triggered_desc = {
+				trigger = { house = { var:ed_legacy_knight = 2 } }
+				desc = ed_settings.legacy.steel_2
+			}
+			triggered_desc = {
+				trigger = { house = { var:ed_legacy_knight = 3 } }
+				desc = ed_settings.legacy.steel_3
+			}
+			desc = ed_settings.legacy.steel_0
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = { house = { var:ed_legacy_prestige = 1 } }
+				desc = ed_settings.legacy.glory_1
+			}
+			triggered_desc = {
+				trigger = { house = { var:ed_legacy_prestige = 2 } }
+				desc = ed_settings.legacy.glory_2
+			}
+			triggered_desc = {
+				trigger = { house = { var:ed_legacy_prestige = 3 } }
+				desc = ed_settings.legacy.glory_3
+			}
+			desc = ed_settings.legacy.glory_0
+		}
+		desc = ed_settings.1002.desc_footer
+	}
+
+	immediate = {
+		ed_ensure_next_iter_defaults_effect = yes
+		if = {
+			limit = { exists = house }
+			house = {
+				if = {
+					limit = { NOT = { has_variable = ed_legacy_fertility } }
+					set_variable = { name = ed_legacy_fertility value = 0 }
+				}
+				if = {
+					limit = { NOT = { has_variable = ed_legacy_knight } }
+					set_variable = { name = ed_legacy_knight value = 0 }
+				}
+				if = {
+					limit = { NOT = { has_variable = ed_legacy_prestige } }
+					set_variable = { name = ed_legacy_prestige value = 0 }
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ed_settings.1002.back
+		custom_tooltip = ed_settings.tt.back
+		trigger_event = ed_settings.1001
+	}
+
+	option = {
+		name = ed_settings.opt.buy_blood
+		trigger = {
+			ed_can_buy_legacy_rank = yes
+			ed_house_legacy_fertility_under_max = yes
+		}
+		is_valid = {
+			OR = {
+				AND = {
+					house = { OR = { NOT = { has_variable = ed_legacy_fertility } var:ed_legacy_fertility = 0 } }
+					ed_dynasty_can_afford_legacy_rank_1 = yes
+				}
+				AND = {
+					house = { var:ed_legacy_fertility = 1 }
+					ed_dynasty_can_afford_legacy_rank_2 = yes
+				}
+				AND = {
+					house = { var:ed_legacy_fertility = 2 }
+					ed_dynasty_can_afford_legacy_rank_3 = yes
+				}
+			}
+		}
+		custom_tooltip = ed_settings.tt.buy_blood
+		ed_buy_legacy_fertility_effect = yes
+		trigger_event = ed_settings.1002
+	}
+
+	option = {
+		name = ed_settings.opt.buy_steel
+		trigger = {
+			ed_can_buy_legacy_rank = yes
+			ed_house_legacy_knight_under_max = yes
+		}
+		is_valid = {
+			OR = {
+				AND = {
+					house = { OR = { NOT = { has_variable = ed_legacy_knight } var:ed_legacy_knight = 0 } }
+					ed_dynasty_can_afford_legacy_rank_1 = yes
+				}
+				AND = {
+					house = { var:ed_legacy_knight = 1 }
+					ed_dynasty_can_afford_legacy_rank_2 = yes
+				}
+				AND = {
+					house = { var:ed_legacy_knight = 2 }
+					ed_dynasty_can_afford_legacy_rank_3 = yes
+				}
+			}
+		}
+		custom_tooltip = ed_settings.tt.buy_steel
+		ed_buy_legacy_knight_effect = yes
+		trigger_event = ed_settings.1002
+	}
+
+	option = {
+		name = ed_settings.opt.buy_glory
+		trigger = {
+			ed_can_buy_legacy_rank = yes
+			ed_house_legacy_prestige_under_max = yes
+		}
+		is_valid = {
+			OR = {
+				AND = {
+					house = { OR = { NOT = { has_variable = ed_legacy_prestige } var:ed_legacy_prestige = 0 } }
+					ed_dynasty_can_afford_legacy_rank_1 = yes
+				}
+				AND = {
+					house = { var:ed_legacy_prestige = 1 }
+					ed_dynasty_can_afford_legacy_rank_2 = yes
+				}
+				AND = {
+					house = { var:ed_legacy_prestige = 2 }
+					ed_dynasty_can_afford_legacy_rank_3 = yes
+				}
+			}
+		}
+		custom_tooltip = ed_settings.tt.buy_glory
+		ed_buy_legacy_prestige_effect = yes
+		trigger_event = ed_settings.1002
+	}
+}

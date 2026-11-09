@@ -107,7 +107,9 @@ ed_manage_exalted_dynasty_decision = {
 
 	effect = {
 		custom_tooltip = ed_manage_exalted_dynasty_decision_effect_tt
-		trigger_event = ed_events.2001
+		ed_ensure_next_iter_defaults_effect = yes
+		ed_recount_secondary_exalts_effect = yes
+		trigger_event = ed_settings.1001
 	}
 
 	ai_potential = {

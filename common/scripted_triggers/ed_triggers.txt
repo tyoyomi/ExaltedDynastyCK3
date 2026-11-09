@@ -14,11 +14,35 @@ ed_house_is_exalted = {
 	has_variable = ed_exalted
 }
 
+ed_house_is_secondary_exalted = {
+	has_variable = ed_exalted
+	has_variable = ed_exalted_secondary
+}
+
+ed_house_is_primary_exalted = {
+	has_variable = ed_exalted
+	NOT = { has_variable = ed_exalted_secondary }
+}
+
 # Character's current house is exalted
 ed_character_house_is_exalted = {
 	exists = house
 	house = {
 		ed_house_is_exalted = yes
+	}
+}
+
+ed_character_house_is_secondary_exalted = {
+	exists = house
+	house = {
+		ed_house_is_secondary_exalted = yes
+	}
+}
+
+ed_character_house_is_primary_exalted = {
+	exists = house
+	house = {
+		ed_house_is_primary_exalted = yes
 	}
 }
 
@@ -64,7 +88,7 @@ ed_house_head_blocks_for_sovereign = {
 	}
 }
 
-# Actor eligible to exalt their own house (actor = this)
+# Actor eligible to exalt their own house (actor = this) — primary path
 ed_actor_may_exalt = {
 	is_alive = yes
 	exists = house
@@ -82,7 +106,7 @@ ed_actor_may_exalt = {
 	}
 }
 
-# Current house head of an exalted house may revoke
+# Current house head of an exalted house may revoke (primary or secondary)
 ed_actor_may_revoke = {
 	is_alive = yes
 	exists = house
@@ -101,4 +125,191 @@ ed_should_strip_member = {
 ed_should_skip_renown_for_sovereign = {
 	has_game_rule = ed_rule_stack_with_sovereign_skip_renown_on_sovereign
 	ed_character_is_supreme_sovereign = yes
+}
+
+### Next-iter — cohesion
+
+ed_cohesion_cfg_is_off = {
+	has_variable = ed_cfg_cohesion_pulse
+	var:ed_cfg_cohesion_pulse = 0
+}
+
+ed_can_cohesion_pulse = {
+	is_alive = yes
+	is_ai = no
+	exists = house
+	is_house_head = yes
+	ed_character_house_is_exalted = yes
+	NOT = { ed_cohesion_cfg_is_off = yes }
+}
+
+### Next-iter — legacy track
+
+ed_legacy_track_enabled = {
+	NOT = { has_game_rule = ed_rule_legacy_track_off }
+}
+
+ed_actor_is_exalted_house_head = {
+	is_alive = yes
+	is_ai = no
+	exists = house
+	is_house_head = yes
+	ed_character_house_is_exalted = yes
+}
+
+ed_can_buy_legacy_fertility = {
+	ed_actor_is_exalted_house_head = yes
+	ed_legacy_track_enabled = yes
+	exists = house
+	house = {
+		OR = {
+			NOT = { has_variable = ed_legacy_fertility }
+			var:ed_legacy_fertility < 3
+		}
+	}
+	exists = dynasty
+	dynasty = {
+		OR = {
+			AND = {
+				OR = {
+					NOT = { exists = house.var:ed_legacy_fertility }
+					house = { NOT = { has_variable = ed_legacy_fertility } }
+				}
+				dynasty_prestige >= 250
+			}
+			AND = {
+				house = { var:ed_legacy_fertility = 0 }
+				dynasty_prestige >= 250
+			}
+			AND = {
+				house = { var:ed_legacy_fertility = 1 }
+				dynasty_prestige >= 500
+			}
+			AND = {
+				house = { var:ed_legacy_fertility = 2 }
+				dynasty_prestige >= 1000
+			}
+		}
+	}
+}
+
+# Simpler afford/rank triggers used by hub (rank checked in effect too)
+ed_house_legacy_fertility_under_max = {
+	exists = house
+	house = {
+		OR = {
+			NOT = { has_variable = ed_legacy_fertility }
+			var:ed_legacy_fertility < 3
+		}
+	}
+}
+
+ed_house_legacy_knight_under_max = {
+	exists = house
+	house = {
+		OR = {
+			NOT = { has_variable = ed_legacy_knight }
+			var:ed_legacy_knight < 3
+		}
+	}
+}
+
+ed_house_legacy_prestige_under_max = {
+	exists = house
+	house = {
+		OR = {
+			NOT = { has_variable = ed_legacy_prestige }
+			var:ed_legacy_prestige < 3
+		}
+	}
+}
+
+ed_dynasty_can_afford_legacy_rank_1 = {
+	exists = dynasty
+	dynasty = { dynasty_prestige >= 250 }
+}
+
+ed_dynasty_can_afford_legacy_rank_2 = {
+	exists = dynasty
+	dynasty = { dynasty_prestige >= 500 }
+}
+
+ed_dynasty_can_afford_legacy_rank_3 = {
+	exists = dynasty
+	dynasty = { dynasty_prestige >= 1000 }
+}
+
+ed_can_buy_legacy_rank = {
+	ed_actor_is_exalted_house_head = yes
+	ed_legacy_track_enabled = yes
+}
+
+### Next-iter — secondary exalt
+
+ed_actor_heads_primary_exalted_house = {
+	is_alive = yes
+	is_ai = no
+	exists = house
+	is_house_head = yes
+	ed_character_house_is_primary_exalted = yes
+}
+
+ed_under_secondary_cap = {
+	# Prefer dynasty-tracked count; treat missing as 0
+	exists = dynasty
+	OR = {
+		AND = {
+			dynasty = { NOT = { has_variable = ed_secondary_exalt_count } }
+			ed_secondary_cap_value > 0
+		}
+		dynasty = {
+			has_variable = ed_secondary_exalt_count
+			var:ed_secondary_exalt_count < ed_secondary_cap_value
+		}
+	}
+}
+
+ed_actor_may_bless_secondary = {
+	ed_actor_heads_primary_exalted_house = yes
+	ed_actor_may_exalt_by_granting_rule = yes
+	NOT = { has_game_rule = ed_rule_secondary_cap_0 }
+	custom_tooltip = {
+		text = ed_tt_under_secondary_cap
+		ed_under_secondary_cap = yes
+	}
+}
+
+ed_recipient_house_may_be_blessed = {
+	# recipient = cadet house head
+	is_alive = yes
+	is_house_head = yes
+	exists = house
+	exists = dynasty
+	NOT = { ed_character_house_is_exalted = yes }
+}
+
+### Next-iter — SU soft peer (fail closed if SU absent)
+
+ed_su_pact_active_on_dynast = {
+	exists = dynasty
+	dynasty = {
+		exists = dynast
+		dynast = {
+			is_alive = yes
+			has_variable = su_pact_active
+		}
+	}
+}
+
+ed_su_soft_glue_active_on = {
+	has_variable = su_soft_glue_active
+}
+
+### Next-iter — war banner
+
+ed_war_banner_cfg_on = {
+	OR = {
+		NOT = { has_variable = ed_cfg_war_banner }
+		var:ed_cfg_war_banner = 1
+	}
 }

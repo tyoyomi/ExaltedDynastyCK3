@@ -97,3 +97,34 @@ ed_rule_stack_with_sovereign = {
 	ed_rule_stack_with_sovereign_block_house_if_head_sovereign = {
 	}
 }
+
+ed_rule_legacy_track = {
+	categories = {
+		tweaks
+	}
+
+	default = ed_rule_legacy_track_on
+
+	ed_rule_legacy_track_on = {
+	}
+
+	ed_rule_legacy_track_off = {
+	}
+}
+
+ed_rule_secondary_cap = {
+	categories = {
+		tweaks
+	}
+
+	default = ed_rule_secondary_cap_2
+
+	ed_rule_secondary_cap_0 = {
+	}
+
+	ed_rule_secondary_cap_1 = {
+	}
+
+	ed_rule_secondary_cap_2 = {
+	}
+}
