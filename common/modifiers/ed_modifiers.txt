@@ -1,8 +1,36 @@
-# Exalted Dynasty — renown faucet tiers (applied by ed_refresh_member_renown_effect)
+# Exalted Dynasty — renown faucet + next-iter modifiers
 
 @ed_renown_low = 8
 @ed_renown_mid = 20
 @ed_renown_high = 40
+
+@ed_cohesion_united_house_opinion = 5
+@ed_cohesion_united_dynasty_opinion = 5
+
+@ed_legacy_fertility_1 = 0.05
+@ed_legacy_fertility_2 = 0.10
+@ed_legacy_fertility_3 = 0.15
+
+@ed_legacy_knight_eff_1 = 0.02
+@ed_legacy_knight_eff_2 = 0.04
+@ed_legacy_knight_eff_3 = 0.06
+@ed_legacy_prowess_1 = 1
+@ed_legacy_prowess_2 = 1
+@ed_legacy_prowess_3 = 2
+
+@ed_legacy_glory_prestige_1 = 0.5
+@ed_legacy_glory_prestige_2 = 1
+@ed_legacy_glory_prestige_3 = 1.5
+@ed_legacy_glory_renown_1 = 2
+@ed_legacy_glory_renown_2 = 4
+@ed_legacy_glory_renown_3 = 6
+
+@ed_banner_knight_effectiveness = 0.08
+@ed_banner_prowess = 2
+@ed_banner_maa_damage_mult = 0.05
+@ed_banner_maa_toughness_mult = 0.02
+
+@ed_soft_glue_stress_loss_mult = 0.05
 
 ed_exalted_renown_low_modifier = {
 	monthly_dynasty_prestige = @ed_renown_low
@@ -14,4 +42,80 @@ ed_exalted_renown_mid_modifier = {
 
 ed_exalted_renown_high_modifier = {
 	monthly_dynasty_prestige = @ed_renown_high
+}
+
+# Cohesion — cadet stay-feel (timed on pulse)
+ed_cohesion_united_blood_modifier = {
+	icon = prestige_positive
+	house_opinion = @ed_cohesion_united_house_opinion
+	dynasty_member_opinion = @ed_cohesion_united_dynasty_opinion
+}
+
+# Legacy Blood
+ed_legacy_fertility_1_modifier = {
+	icon = fertility_positive
+	fertility = @ed_legacy_fertility_1
+}
+
+ed_legacy_fertility_2_modifier = {
+	icon = fertility_positive
+	fertility = @ed_legacy_fertility_2
+}
+
+ed_legacy_fertility_3_modifier = {
+	icon = fertility_positive
+	fertility = @ed_legacy_fertility_3
+}
+
+# Legacy Steel
+ed_legacy_knight_1_modifier = {
+	icon = martial_positive
+	knight_effectiveness = @ed_legacy_knight_eff_1
+	prowess = @ed_legacy_prowess_1
+}
+
+ed_legacy_knight_2_modifier = {
+	icon = martial_positive
+	knight_effectiveness = @ed_legacy_knight_eff_2
+	prowess = @ed_legacy_prowess_2
+}
+
+ed_legacy_knight_3_modifier = {
+	icon = martial_positive
+	knight_effectiveness = @ed_legacy_knight_eff_3
+	prowess = @ed_legacy_prowess_3
+}
+
+# Legacy Glory — house head only
+ed_legacy_glory_1_modifier = {
+	icon = prestige_positive
+	monthly_prestige = @ed_legacy_glory_prestige_1
+	monthly_dynasty_prestige = @ed_legacy_glory_renown_1
+}
+
+ed_legacy_glory_2_modifier = {
+	icon = prestige_positive
+	monthly_prestige = @ed_legacy_glory_prestige_2
+	monthly_dynasty_prestige = @ed_legacy_glory_renown_2
+}
+
+ed_legacy_glory_3_modifier = {
+	icon = prestige_positive
+	monthly_prestige = @ed_legacy_glory_prestige_3
+	monthly_dynasty_prestige = @ed_legacy_glory_renown_3
+}
+
+# House war banner (always-on while exalted + cfg On)
+ed_house_war_banner_modifier = {
+	icon = martial_positive
+	knight_effectiveness = @ed_banner_knight_effectiveness
+	prowess = @ed_banner_prowess
+	men_at_arms_damage_mult = @ed_banner_maa_damage_mult
+	men_at_arms_toughness_mult = @ed_banner_maa_toughness_mult
+}
+
+# Soft Glue kindred crumb (ED soft peer; not SU Soft Glue package)
+ed_soft_glue_kindred_modifier = {
+	icon = stress_positive
+	stress_loss_mult = @ed_soft_glue_stress_loss_mult
 }

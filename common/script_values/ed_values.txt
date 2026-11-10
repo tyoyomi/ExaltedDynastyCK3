@@ -14,6 +14,49 @@
 @ed_renown_mid = 20
 @ed_renown_high = 40
 
+# Cohesion pulse (ED-scale; ≪ SS Legacy Pulse)
+@ed_cohesion_renown_low = 25
+@ed_cohesion_renown_mid = 50
+@ed_cohesion_renown_high = 100
+@ed_cohesion_member_cap = 40
+@ed_cohesion_united_house_opinion = 5
+@ed_cohesion_united_dynasty_opinion = 5
+
+# Legacy track costs (dynasty prestige)
+@ed_legacy_cost_rank_1 = 250
+@ed_legacy_cost_rank_2 = 500
+@ed_legacy_cost_rank_3 = 1000
+
+# Legacy Blood fertility
+@ed_legacy_fertility_1 = 0.05
+@ed_legacy_fertility_2 = 0.10
+@ed_legacy_fertility_3 = 0.15
+
+# Legacy Steel knight (stay under banner + far under SW)
+@ed_legacy_knight_eff_1 = 0.02
+@ed_legacy_knight_eff_2 = 0.04
+@ed_legacy_knight_eff_3 = 0.06
+@ed_legacy_prowess_1 = 1
+@ed_legacy_prowess_2 = 1
+@ed_legacy_prowess_3 = 2
+
+# Legacy Glory (house-head only)
+@ed_legacy_glory_prestige_1 = 0.5
+@ed_legacy_glory_prestige_2 = 1
+@ed_legacy_glory_prestige_3 = 1.5
+@ed_legacy_glory_renown_1 = 2
+@ed_legacy_glory_renown_2 = 4
+@ed_legacy_glory_renown_3 = 6
+
+# War banner (ED-mild)
+@ed_banner_knight_effectiveness = 0.08
+@ed_banner_prowess = 2
+@ed_banner_maa_damage_mult = 0.05
+@ed_banner_maa_toughness_mult = 0.02
+
+# Soft Glue kindred crumb
+@ed_soft_glue_stress_loss_mult = 0.05
+
 ed_renown_tier_value = {
 	value = 20
 	if = {
@@ -27,5 +70,48 @@ ed_renown_tier_value = {
 	else_if = {
 		limit = { has_game_rule = ed_rule_renown_tier_high }
 		value = 40
+	}
+}
+
+ed_secondary_cap_value = {
+	value = 2
+	if = {
+		limit = { has_game_rule = ed_rule_secondary_cap_0 }
+		value = 0
+	}
+	else_if = {
+		limit = { has_game_rule = ed_rule_secondary_cap_1 }
+		value = 1
+	}
+	else_if = {
+		limit = { has_game_rule = ed_rule_secondary_cap_2 }
+		value = 2
+	}
+}
+
+ed_legacy_next_rank_cost_value = {
+	value = 0
+	# Expect house var ed_legacy_buy_track = 1 fertility / 2 knight / 3 prestige
+	# and current rank in matching house var — caller sets scope:ed_buy_current_rank
+	if = {
+		limit = {
+			exists = scope:ed_buy_current_rank
+			scope:ed_buy_current_rank = 0
+		}
+		value = 250
+	}
+	else_if = {
+		limit = {
+			exists = scope:ed_buy_current_rank
+			scope:ed_buy_current_rank = 1
+		}
+		value = 500
+	}
+	else_if = {
+		limit = {
+			exists = scope:ed_buy_current_rank
+			scope:ed_buy_current_rank = 2
+		}
+		value = 1000
 	}
 }
