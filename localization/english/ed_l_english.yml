@@ -16,11 +16,28 @@
  ed_revoke_house_exaltation_decision_confirm:0 "Revoke Exaltation"
  ed_revoke_house_exaltation_decision_effect_tt:0 "House exaltation ends; all members lose Exalted Dynast"
 
+ decision_group_type_ed_exalted:0 "Exalted Dynasty"
+
  ed_manage_exalted_dynasty_decision:0 "Manage Exalted Dynasty"
- ed_manage_exalted_dynasty_decision_desc:0 "Review whether your house is exalted and how exaltation, revoke, and member sync work. Exalt and revoke are separate decisions."
+ ed_manage_exalted_dynasty_decision_desc:0 "Review whether your house is exalted and how exaltation, revoke, and member sync work. Use Exalted Dynasty: Actions for exalt, revoke, sync, and strip verbs."
  ed_manage_exalted_dynasty_decision_tooltip:0 "Open a summary of Exalted Dynasty status and rules"
  ed_manage_exalted_dynasty_decision_confirm:0 "Review Status"
  ed_manage_exalted_dynasty_decision_effect_tt:0 "You will receive a brief overview of Exalted Dynasty"
+
+ ed_exalted_actions_decision:0 "Exalted Dynasty: Actions"
+ ed_exalted_actions_decision_desc:0 "Open Dynasty Actions: exalt or revoke your house, mass-sync members, or strip leavers.\n\nDone is always first. Gated actions stay hidden until ready."
+ ed_exalted_actions_decision_tooltip:0 "Open Dynasty Actions for exalt, revoke, sync, and strip"
+ ed_exalted_actions_decision_confirm:0 "Open Actions"
+ ed_exalted_actions_decision_effect_tt:0 "Opens the Exalted Dynasty Actions hub"
+
+ ed_actions.1001.t:0 "Dynasty Actions"
+ ed_actions.1001.desc:0 "Choose a Dynasty action. Done closes the hub. Gated actions stay hidden until ready."
+ ed_actions.1001.close:0 "Done"
+ ed_actions.1001.exalt:0 "Exalt My House"
+ ed_actions.1001.revoke:0 "Revoke House Exaltation"
+ ed_actions.1001.sync:0 "Mass Bestow House Exaltation"
+ ed_actions.1001.strip:0 "Strip Former House Members"
+ ed_actions.tt.close:0 "Close Dynasty Actions without taking an action."
 
  # Tooltips
  ed_tt_actor_may_exalt:0 "You may exalt your house"
@@ -90,13 +107,13 @@
  ed_events.1201.a:0 "The favor stays with them."
 
  ed_events.2001.t:0 "Exalted Dynasty"
- ed_events.2001.desc:0 "Exalted Dynasty elevates a whole house — mild member buffs and a renown faucet — by appointment, not genetics.\n\nExalt My House: declare your house exalted and sync all living members.\nRevoke House Exaltation: available to the house head of an exalted house.\nCadets born into an exalted house gain the status; members who leave lose it while Strip on Leave is enabled.\n\nRuler Designer can apply the trait for debugging, but that does not exalt the house."
+ ed_events.2001.desc:0 "Exalted Dynasty elevates a whole house — mild member buffs and a renown faucet — by appointment, not genetics.\n\nUse Exalted Dynasty: Actions for exalt, revoke, mass sync, and stripping leavers.\nCadets born into an exalted house gain the status; members who leave lose it while Strip on Leave is enabled.\n\nRuler Designer can apply the trait for debugging, but that does not exalt the house."
  ed_events.2001.a:0 "Understood"
- ed_events.2001.a_tt:0 "Use the Exalt and Revoke decisions to change house status"
+ ed_events.2001.a_tt:0 "Use Exalted Dynasty: Actions to change house status"
  ed_events.2001.b:0 "Our house is exalted"
  ed_events.2001.b_tt:0 "Living house members should carry Exalted Dynast while exaltation lasts"
  ed_events.2001.c:0 "Our house is not exalted"
- ed_events.2001.c_tt:0 "Use Exalt My House when eligible"
+ ed_events.2001.c_tt:0 "Use Exalted Dynasty: Actions when eligible"
 
  # Modifiers
  ed_exalted_renown_low_modifier:0 "Exalted House Renown (Low)"

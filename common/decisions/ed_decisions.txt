@@ -1,90 +1,11 @@
-ed_exalt_my_house_decision = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
-	}
-	decision_group_type = major
-	desc = ed_exalt_my_house_decision_desc
-	selection_tooltip = ed_exalt_my_house_decision_tooltip
-	confirm_text = ed_exalt_my_house_decision_confirm
-
-	ai_check_interval = 0
-
-	is_shown = {
-		is_alive = yes
-		exists = house
-		NOT = { has_game_rule = ed_rule_granting_disabled }
-		OR = {
-			is_ai = no
-			has_game_rule = ed_rule_granting_player_and_ai
-		}
-		NOT = { ed_character_house_is_exalted = yes }
-	}
-
-	is_valid = {
-		custom_tooltip = {
-			text = ed_tt_actor_may_exalt
-			ed_actor_may_exalt = yes
-		}
-	}
-
-	effect = {
-		custom_tooltip = ed_exalt_my_house_decision_effect_tt
-		ed_exalt_house_effect = yes
-	}
-
-	ai_potential = {
-		always = no
-	}
-
-	ai_will_do = {
-		base = 0
-	}
-}
-
-ed_revoke_house_exaltation_decision = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
-	}
-	decision_group_type = major
-	desc = ed_revoke_house_exaltation_decision_desc
-	selection_tooltip = ed_revoke_house_exaltation_decision_tooltip
-	confirm_text = ed_revoke_house_exaltation_decision_confirm
-
-	ai_check_interval = 0
-
-	is_shown = {
-		is_alive = yes
-		exists = house
-		ed_character_house_is_exalted = yes
-		is_house_head = yes
-	}
-
-	is_valid = {
-		custom_tooltip = {
-			text = ed_tt_actor_may_revoke
-			ed_actor_may_revoke = yes
-		}
-	}
-
-	effect = {
-		custom_tooltip = ed_revoke_house_exaltation_decision_effect_tt
-		ed_revoke_house_effect = yes
-	}
-
-	ai_potential = {
-		always = no
-	}
-
-	ai_will_do = {
-		base = 0
-	}
-}
+# Exalted Dynasty — Manage + Actions fold (suite major-decisions collapse).
+# Player exalt / revoke / sync / strip verbs live on ed_actions.1001.
 
 ed_manage_exalted_dynasty_decision = {
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_misc.dds"
 	}
-	decision_group_type = major
+	decision_group_type = ed_exalted
 	desc = ed_manage_exalted_dynasty_decision_desc
 	selection_tooltip = ed_manage_exalted_dynasty_decision_tooltip
 	confirm_text = ed_manage_exalted_dynasty_decision_confirm
@@ -119,65 +40,22 @@ ed_manage_exalted_dynasty_decision = {
 	}
 }
 
-ed_mass_sync_exalted_house_decision = {
+ed_exalted_actions_decision = {
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
 	}
-	decision_group_type = major
-	desc = ed_mass_sync_exalted_house_decision_desc
-	selection_tooltip = ed_mass_sync_exalted_house_decision_tooltip
-	confirm_text = ed_mass_sync_exalted_house_decision_confirm
+	decision_group_type = ed_exalted
+	desc = ed_exalted_actions_decision_desc
+	selection_tooltip = ed_exalted_actions_decision_tooltip
+	confirm_text = ed_exalted_actions_decision_confirm
 
 	ai_check_interval = 0
 
 	is_shown = {
 		is_alive = yes
+		is_ai = no
 		exists = house
-		ed_character_house_is_exalted = yes
 		NOT = { has_game_rule = ed_rule_granting_disabled }
-		OR = {
-			is_ai = no
-			has_game_rule = ed_rule_granting_player_and_ai
-		}
-	}
-
-	is_valid = {
-		custom_tooltip = {
-			text = ed_tt_house_is_exalted
-			ed_character_house_is_exalted = yes
-		}
-	}
-
-	effect = {
-		custom_tooltip = ed_mass_sync_exalted_house_decision_effect_tt
-		ed_mass_sync_exalted_house_effect = yes
-		trigger_event = ed_events.1501
-	}
-
-	ai_potential = { always = no }
-	ai_will_do = { base = 0 }
-}
-
-ed_auto_strip_left_house_members_decision = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
-	}
-	decision_group_type = major
-	desc = ed_auto_strip_left_house_members_decision_desc
-	selection_tooltip = ed_auto_strip_left_house_members_decision_tooltip
-	confirm_text = ed_auto_strip_left_house_members_decision_confirm
-
-	ai_check_interval = 0
-
-	is_shown = {
-		is_alive = yes
-		exists = house
-		ed_character_house_is_exalted = yes
-		has_game_rule = ed_rule_strip_on_leave_house_on
-		OR = {
-			is_ai = no
-			has_game_rule = ed_rule_granting_player_and_ai
-		}
 	}
 
 	is_valid = {
@@ -185,9 +63,8 @@ ed_auto_strip_left_house_members_decision = {
 	}
 
 	effect = {
-		custom_tooltip = ed_auto_strip_left_house_members_decision_effect_tt
-		ed_auto_strip_left_house_members_effect = yes
-		trigger_event = ed_events.1502
+		custom_tooltip = ed_exalted_actions_decision_effect_tt
+		trigger_event = ed_actions.1001
 	}
 
 	ai_potential = { always = no }
