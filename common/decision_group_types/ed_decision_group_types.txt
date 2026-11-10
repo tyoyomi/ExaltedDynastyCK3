@@ -1,0 +1,7 @@
+# Exalted Dynasty — custom decision group (additive; does not replace vanilla major)
+
+ed_exalted = {
+	sort_order = 188
+	gui_tags = { big_button }
+	important_decision_group = yes
+}
