@@ -1,7 +1,7 @@
-﻿l_english:
+﻿ï»¿l_english:
  # Trait
  trait_ed_exalted_dynast:0 "Exalted Dynast"
- trait_ed_exalted_dynast_desc:0 "A living member of an exalted house. Mild favor marks them — competence, cohesion, and a share of the house's renown faucet. Appointed status, not blood destiny."
+ trait_ed_exalted_dynast_desc:0 "A living member of an exalted house. Mild favor marks them â€” competence, cohesion, and a share of the house's renown faucet. Appointed status, not blood destiny."
 
  # Decisions
  ed_exalt_my_house_decision:0 "Exalt My House"
@@ -11,41 +11,38 @@
  ed_exalt_my_house_decision_effect_tt:0 "Your house becomes exalted; living members gain Exalted Dynast"
 
  ed_revoke_house_exaltation_decision:0 "Revoke House Exaltation"
- ed_revoke_house_exaltation_decision_desc:0 "End your house's exalted status. All living members lose Exalted Dynast, and the renown faucet stops. Secondary cadet blessings are not cascaded."
+ ed_revoke_house_exaltation_decision_desc:0 "End your house's exalted status. All living members lose Exalted Dynast, and the renown faucet stops."
  ed_revoke_house_exaltation_decision_tooltip:0 "Clear house exaltation and strip all members"
  ed_revoke_house_exaltation_decision_confirm:0 "Revoke Exaltation"
  ed_revoke_house_exaltation_decision_effect_tt:0 "House exaltation ends; all members lose Exalted Dynast"
 
+ decision_group_type_ed_exalted:0 "Exalted Dynasty"
+
  ed_manage_exalted_dynasty_decision:0 "Manage Exalted Dynasty"
- ed_manage_exalted_dynasty_decision_desc:0 "Open the Exalted Dynasty hub: cohesion pulse, war banner, house legacies, cadet blessing, and Dynasty Pact synergy."
- ed_manage_exalted_dynasty_decision_tooltip:0 "Open the Exalted Dynasty manage hub"
- ed_manage_exalted_dynasty_decision_confirm:0 "Open Hub"
- ed_manage_exalted_dynasty_decision_effect_tt:0 "You will open the Exalted Dynasty hub"
+ ed_manage_exalted_dynasty_decision_desc:0 "Review whether your house is exalted and how exaltation, revoke, and member sync work. Use Exalted Dynasty: Actions for exalt, revoke, sync, and strip verbs."
+ ed_manage_exalted_dynasty_decision_tooltip:0 "Open a summary of Exalted Dynasty status and rules"
+ ed_manage_exalted_dynasty_decision_confirm:0 "Review Status"
+ ed_manage_exalted_dynasty_decision_effect_tt:0 "You will receive a brief overview of Exalted Dynasty"
 
- ed_mass_sync_exalted_house_decision:0 "Mass Bestow House Exaltation"
- ed_mass_sync_exalted_house_decision_desc:0 "Re-sync Exalted Dynast to every living member of your exalted house. Cadets born into the house already inherit on birth; this catches anyone the yearly pulse missed."
- ed_mass_sync_exalted_house_decision_tooltip:0 "Apply Exalted Dynast to all living house members"
- ed_mass_sync_exalted_house_decision_confirm:0 "Sync the House"
- ed_mass_sync_exalted_house_decision_effect_tt:0 "All living members of your exalted house receive Exalted Dynast"
+ ed_exalted_actions_decision:0 "Exalted Dynasty: Actions"
+ ed_exalted_actions_decision_desc:0 "Open Dynasty Actions: exalt or revoke your house, mass-sync members, or strip leavers.\n\nDone is always first. Gated actions stay hidden until ready."
+ ed_exalted_actions_decision_tooltip:0 "Open Dynasty Actions for exalt, revoke, sync, and strip"
+ ed_exalted_actions_decision_confirm:0 "Open Actions"
+ ed_exalted_actions_decision_effect_tt:0 "Opens the Exalted Dynasty Actions hub"
 
- ed_auto_strip_left_house_members_decision:0 "Strip Former House Members"
- ed_auto_strip_left_house_members_decision_desc:0 "Strip Exalted Dynast from nearby characters who left your exalted house while Strip on Leave is enabled."
- ed_auto_strip_left_house_members_decision_tooltip:0 "Bulk strip trait holders who left the exalted house"
- ed_auto_strip_left_house_members_decision_confirm:0 "Strip Leavers"
- ed_auto_strip_left_house_members_decision_effect_tt:0 "Former members in your court, family, and vassals lose Exalted Dynast"
-
- # Interactions
- ed_bless_secondary_house_interaction:0 "Bless Cadet House"
- ed_bless_secondary_house_interaction_desc:0 "Bless this cadet house with secondary exaltation. They gain Exalted Dynast sync without revoking your primary house exalt. Cap is set by game rule (default 2)."
+ ed_actions.1001.t:0 "Dynasty Actions"
+ ed_actions.1001.desc:0 "Choose a Dynasty action. Done closes the hub. Gated actions stay hidden until ready."
+ ed_actions.1001.close:0 "Done"
+ ed_actions.1001.exalt:0 "Exalt My House"
+ ed_actions.1001.revoke:0 "Revoke House Exaltation"
+ ed_actions.1001.sync:0 "Mass Bestow House Exaltation"
+ ed_actions.1001.strip:0 "Strip Former House Members"
+ ed_actions.tt.close:0 "Close Dynasty Actions without taking an action."
 
  # Tooltips
  ed_tt_actor_may_exalt:0 "You may exalt your house"
  ed_tt_actor_may_revoke:0 "You may revoke your house's exaltation"
  ed_tt_not_blocked_by_sovereign_head:0 "House head is not a Supreme Sovereign (or stacking rule allows exaltation)"
- ed_tt_house_is_exalted:0 "Your house is exalted"
- ed_tt_under_secondary_cap:0 "Secondary exaltations under the dynasty cap"
- ed_tt_cadet_house_not_exalted:0 "Cadet house is not already exalted"
- ed_tt_same_dynasty_cadet:0 "Target is a house head of your dynasty"
 
  # Game rules
  rule_ed_rule_granting:0 "Exalted Dynasty: Who May Exalt"
@@ -92,23 +89,9 @@
  setting_ed_rule_stack_with_sovereign_block_house_if_head_sovereign:0 "Block if House Head is Sovereign"
  setting_ed_rule_stack_with_sovereign_block_house_if_head_sovereign_desc:0 "Cannot exalt a house whose current house head is a Supreme Sovereign."
 
- rule_ed_rule_legacy_track:0 "Exalted Dynasty: House Legacy Track"
- setting_ed_rule_legacy_track_on:0 "On"
- setting_ed_rule_legacy_track_on_desc:0 "Spend renown in the manage hub on mild Blood / Steel / Glory house legacies."
- setting_ed_rule_legacy_track_off:0 "Off"
- setting_ed_rule_legacy_track_off_desc:0 "Hide legacy spend rows in the hub."
-
- rule_ed_rule_secondary_cap:0 "Exalted Dynasty: Secondary House Cap"
- setting_ed_rule_secondary_cap_0:0 "None (0)"
- setting_ed_rule_secondary_cap_0_desc:0 "Cadet house blessings are disabled."
- setting_ed_rule_secondary_cap_1:0 "One (1)"
- setting_ed_rule_secondary_cap_1_desc:0 "Bless up to one cadet house while keeping the primary exalt."
- setting_ed_rule_secondary_cap_2:0 "Two (2)"
- setting_ed_rule_secondary_cap_2_desc:0 "Bless up to two cadet houses while keeping the primary exalt."
-
- # Events — core
+ # Events
  ed_events.1001.t:0 "House Exalted"
- ed_events.1001.desc:0 "Your house stands exalted. Living members carry Exalted Dynast, and a steady renown drip feeds the dynasty's legacy — for as long as the exaltation lasts."
+ ed_events.1001.desc:0 "Your house stands exalted. Living members carry Exalted Dynast, and a steady renown drip feeds the dynasty's legacy â€” for as long as the exaltation lasts."
  ed_events.1001.a:0 "Let the house rise."
 
  ed_events.1002.t:0 "Exalted Dynast"
@@ -120,38 +103,74 @@
  ed_events.1101.a:0 "So ends the favor."
 
  ed_events.1201.t:0 "Left the Exalted House"
- ed_events.1201.desc:0 "You no longer belong to the exalted house. Exalted Dynast status has lapsed — not by house revoke, but by leaving the house itself."
+ ed_events.1201.desc:0 "You no longer belong to the exalted house. Exalted Dynast status has lapsed â€” not by house revoke, but by leaving the house itself."
  ed_events.1201.a:0 "The favor stays with them."
 
+ ed_events.2001.t:0 "Exalted Dynasty"
+ ed_events.2001.desc:0 "Exalted Dynasty elevates a whole house â€” mild member buffs and a renown faucet â€” by appointment, not genetics.\n\nUse Exalted Dynasty: Actions for exalt, revoke, mass sync, and stripping leavers.\nCadets born into an exalted house gain the status; members who leave lose it while Strip on Leave is enabled.\n\nRuler Designer can apply the trait for debugging, but that does not exalt the house."
+ ed_events.2001.a:0 "Understood"
+ ed_events.2001.a_tt:0 "Use Exalted Dynasty: Actions to change house status"
+ ed_events.2001.b:0 "Our house is exalted"
+ ed_events.2001.b_tt:0 "Living house members should carry Exalted Dynast while exaltation lasts"
+ ed_events.2001.c:0 "Our house is not exalted"
+ ed_events.2001.c_tt:0 "Use Exalted Dynasty: Actions when eligible"
+
+ # Modifiers
+ ed_exalted_renown_low_modifier:0 "Exalted House Renown (Low)"
+ ed_exalted_renown_low_modifier_desc:0 "A mild share of the exalted house's renown faucet."
+ ed_exalted_renown_mid_modifier:0 "Exalted House Renown (Mid)"
+ ed_exalted_renown_mid_modifier_desc:0 "A steady share of the exalted house's renown faucet."
+ ed_exalted_renown_high_modifier:0 "Exalted House Renown (High)"
+ ed_exalted_renown_high_modifier_desc:0 "A strong share of the exalted house's renown faucet."
+
+ ed_mass_sync_exalted_house_decision:0 "Mass Bestow House Exaltation"
+ ed_mass_sync_exalted_house_decision_desc:0 "Re-sync Exalted Dynast to every living member of your exalted house. Cadets born into the house already inherit on birth; this catches anyone the yearly pulse missed."
+ ed_mass_sync_exalted_house_decision_tooltip:0 "Apply Exalted Dynast to all living house members"
+ ed_mass_sync_exalted_house_decision_confirm:0 "Sync the House"
+ ed_mass_sync_exalted_house_decision_effect_tt:0 "All living members of your exalted house receive Exalted Dynast"
+ ed_auto_strip_left_house_members_decision:0 "Strip Former House Members"
+ ed_auto_strip_left_house_members_decision_desc:0 "Strip Exalted Dynast from nearby characters who left your exalted house while Strip on Leave is enabled."
+ ed_auto_strip_left_house_members_decision_tooltip:0 "Bulk strip trait holders who left the exalted house"
+ ed_auto_strip_left_house_members_decision_confirm:0 "Strip Leavers"
+ ed_auto_strip_left_house_members_decision_effect_tt:0 "Former members in your court, family, and vassals lose Exalted Dynast"
+ ed_tt_house_is_exalted:0 "Your house is exalted"
  ed_events.1501.t:0 "House Synced"
  ed_events.1501.desc:0 "Every living member of your exalted house now carries Exalted Dynast. Newborns continue to inherit on birth."
  ed_events.1501.a:0 "The blood remembers"
-
  ed_events.1502.t:0 "Leavers Stripped"
  ed_events.1502.desc:0 "Exalted Dynast was stripped from nearby characters who no longer belong to your exalted house."
  ed_events.1502.a:0 "Only the house remains"
 
- ed_events.2001.t:0 "Exalted Dynasty"
- ed_events.2001.desc:0 "Open the manage hub for cohesion, legacies, cadet blessing, war banner, and Dynasty Pact synergy."
- ed_events.2001.a:0 "Open Hub"
- ed_events.2001.a_tt:0 "Opens the Exalted Dynasty manage hub"
-
+ # --- next-iter keys preserved from main ---
+ ed_bless_secondary_house_interaction:0 "Bless Cadet House"
+ ed_bless_secondary_house_interaction_desc:0 "Bless this cadet house with secondary exaltation. They gain Exalted Dynast sync without revoking your primary house exalt. Cap is set by game rule (default 2)."
+ ed_tt_under_secondary_cap:0 "Secondary exaltations under the dynasty cap"
+ ed_tt_cadet_house_not_exalted:0 "Cadet house is not already exalted"
+ ed_tt_same_dynasty_cadet:0 "Target is a house head of your dynasty"
+ rule_ed_rule_legacy_track:0 "Exalted Dynasty: House Legacy Track"
+ setting_ed_rule_legacy_track_on:0 "On"
+ setting_ed_rule_legacy_track_on_desc:0 "Spend renown in the manage hub on mild Blood / Steel / Glory house legacies."
+ setting_ed_rule_legacy_track_off:0 "Off"
+ setting_ed_rule_legacy_track_off_desc:0 "Hide legacy spend rows in the hub."
+ rule_ed_rule_secondary_cap:0 "Exalted Dynasty: Secondary House Cap"
+ setting_ed_rule_secondary_cap_0:0 "None (0)"
+ setting_ed_rule_secondary_cap_0_desc:0 "Cadet house blessings are disabled."
+ setting_ed_rule_secondary_cap_1:0 "One (1)"
+ setting_ed_rule_secondary_cap_1_desc:0 "Bless up to one cadet house while keeping the primary exalt."
+ setting_ed_rule_secondary_cap_2:0 "Two (2)"
+ setting_ed_rule_secondary_cap_2_desc:0 "Bless up to two cadet houses while keeping the primary exalt."
  ed_events.3001.t:0 "House Cohesion"
  ed_events.3001.desc:0 "The exalted house pulses as one blood. Kin draw closer, cadets feel the pull of the house, and a modest renown splash marks the beat."
  ed_events.3001.a:0 "One house."
-
  ed_events.3201.t:0 "Bless a Cadet House"
  ed_events.3201.desc:0 "Use the Bless Cadet House interaction on a house head of your dynasty whose house is not already exalted. This grants secondary exaltation without revoking your primary house. Cap is set by the Secondary House Cap game rule."
  ed_events.3201.a:0 "Back to Hub"
  ed_events.3201.a_tt:0 "Return to the manage hub"
-
  ed_events.3202.t:0 "Cadet House Blessed"
  ed_events.3202.desc:0 "A cadet house now shares the exaltation as a secondary blessing. Their living members carry Exalted Dynast. Revoking your primary house does not strip them."
  ed_events.3202.a:0 "Let the cadets rise."
-
- # Manage hub
  ed_settings.1001.t:0 "Exalted Dynasty Hub"
- ed_settings.1001.desc_intro:0 "Appointed house favor — mild buffs, renown, cohesion, and optional cadet blessings.\n\n"
+ ed_settings.1001.desc_intro:0 "Appointed house favor â€” mild buffs, renown, cohesion, and optional cadet blessings.\n\n"
  ed_settings.status.primary:0 "House status: #P Primary exalted#!\n"
  ed_settings.status.secondary:0 "House status: #P Secondary (cadet) exalted#!\n"
  ed_settings.status.none:0 "House status: #N Not exalted#!\n"
@@ -163,10 +182,10 @@
  ed_settings.banner.on:0 "House war banner: #P On#! (mild knight/MAA chip; Supreme Warriors own elite MAA)\n"
  ed_settings.pact.active:0 "Dynasty Pact synergy: #P Active#! (Succession Unity detected)\n"
  ed_settings.pact.inactive:0 "Dynasty Pact synergy: Inactive (or Succession Unity not armed)\n"
- ed_settings.1001.desc_footer:0 "\nExalt / Revoke / Mass Sync remain separate decisions. Legacy spends use dynasty renown — never Legends APIs."
+ ed_settings.1001.desc_footer:0 "\nExalt / Revoke / Mass Sync remain separate decisions. Legacy spends use dynasty renown â€” never Legends APIs."
  ed_settings.1001.close:0 "Done"
- ed_settings.1001.legacies:0 "House Legacies…"
- ed_settings.1001.bless:0 "Bless Cadet House…"
+ ed_settings.1001.legacies:0 "House Legaciesâ€¦"
+ ed_settings.1001.bless:0 "Bless Cadet Houseâ€¦"
  ed_settings.opt.cohesion_off:0 "Cohesion: Off"
  ed_settings.opt.cohesion_low:0 "Cohesion: Low"
  ed_settings.opt.cohesion_med:0 "Cohesion: Med"
@@ -174,11 +193,10 @@
  ed_settings.opt.banner_off:0 "War Banner: Off"
  ed_settings.opt.banner_on:0 "War Banner: On"
  ed_settings.tt.close:0 "Close the hub"
- ed_settings.tt.cohesion:0 "Cycle five-year cohesion pulse Off → Low → Med → High"
+ ed_settings.tt.cohesion:0 "Cycle five-year cohesion pulse Off â†’ Low â†’ Med â†’ High"
  ed_settings.tt.banner:0 "Toggle mild same-house war banner on exalted members"
  ed_settings.tt.legacies:0 "Spend renown on Blood, Steel, and Glory house legacies"
  ed_settings.tt.bless:0 "How to bless a cadet house (interaction on cadet house head)"
-
  ed_settings.1002.t:0 "House Legacies"
  ed_settings.1002.desc_intro:0 "Spend dynasty renown on mild house perks. Costs: 250 / 500 / 1000 per rank. Glory faucet is house-head only.\n\n"
  ed_settings.legacy.blood_0:0 "Blood (fertility): 0 / 3\n"
@@ -202,46 +220,30 @@
  ed_settings.tt.buy_blood:0 "Spend renown to raise Blood (fertility) one rank"
  ed_settings.tt.buy_steel:0 "Spend renown to raise Steel (knight) one rank"
  ed_settings.tt.buy_glory:0 "Spend renown to raise Glory (head prestige/renown) one rank"
-
- # Modifiers
- ed_exalted_renown_low_modifier:0 "Exalted House Renown (Low)"
- ed_exalted_renown_low_modifier_desc:0 "A mild share of the exalted house's renown faucet."
- ed_exalted_renown_mid_modifier:0 "Exalted House Renown (Mid)"
- ed_exalted_renown_mid_modifier_desc:0 "A steady share of the exalted house's renown faucet."
- ed_exalted_renown_high_modifier:0 "Exalted House Renown (High)"
- ed_exalted_renown_high_modifier_desc:0 "A strong share of the exalted house's renown faucet."
-
  ed_cohesion_united_blood_modifier:0 "United Blood"
- ed_cohesion_united_blood_modifier_desc:0 "The exalted house feels like one blood — mild house and dynasty cohesion."
-
+ ed_cohesion_united_blood_modifier_desc:0 "The exalted house feels like one blood â€” mild house and dynasty cohesion."
  ed_legacy_fertility_1_modifier:0 "House Legacy: Blood I"
  ed_legacy_fertility_1_modifier_desc:0 "Mild fertility from an exalted house Blood legacy."
  ed_legacy_fertility_2_modifier:0 "House Legacy: Blood II"
  ed_legacy_fertility_2_modifier_desc:0 "Steady fertility from an exalted house Blood legacy."
  ed_legacy_fertility_3_modifier:0 "House Legacy: Blood III"
  ed_legacy_fertility_3_modifier_desc:0 "Stronger fertility from an exalted house Blood legacy."
-
  ed_legacy_knight_1_modifier:0 "House Legacy: Steel I"
  ed_legacy_knight_1_modifier_desc:0 "Mild knight effectiveness from an exalted house Steel legacy."
  ed_legacy_knight_2_modifier:0 "House Legacy: Steel II"
  ed_legacy_knight_2_modifier_desc:0 "Steady knight effectiveness from an exalted house Steel legacy."
  ed_legacy_knight_3_modifier:0 "House Legacy: Steel III"
  ed_legacy_knight_3_modifier_desc:0 "Stronger knight effectiveness from an exalted house Steel legacy."
-
  ed_legacy_glory_1_modifier:0 "House Legacy: Glory I"
  ed_legacy_glory_1_modifier_desc:0 "House-head prestige and renown drip from an exalted Glory legacy."
  ed_legacy_glory_2_modifier:0 "House Legacy: Glory II"
  ed_legacy_glory_2_modifier_desc:0 "Stronger house-head prestige and renown drip from an exalted Glory legacy."
  ed_legacy_glory_3_modifier:0 "House Legacy: Glory III"
  ed_legacy_glory_3_modifier_desc:0 "Peak house-head prestige and renown drip from an exalted Glory legacy."
-
  ed_house_war_banner_modifier:0 "Exalted House Banner"
  ed_house_war_banner_modifier_desc:0 "Mild knight and men-at-arms chip for exalted house members. Supreme Warriors still own elite MAA."
-
  ed_soft_glue_kindred_modifier:0 "Pact Kindred Calm"
  ed_soft_glue_kindred_modifier_desc:0 "Soft Glue help from an exalted house while Succession Unity Soft Glue is active."
-
- # Opinions
  ed_cohesion_kin_opinion_low:0 "House Cohesion"
  ed_cohesion_kin_opinion_mid:0 "House Cohesion"
  ed_cohesion_kin_opinion_high:0 "House Cohesion"
